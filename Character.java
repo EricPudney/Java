@@ -38,6 +38,13 @@ public class Character {
                     if (newMove.equals("p")) {
                         System.out.println("x: " + this.currentLocation[0] + ", y: " + this.currentLocation[1]);
                     }
+                    else if (newMove.equals("h")) {
+                        System.out.println("Press p for your x/y location in the dungeon. Use n, e, w and s to travel north, east, west or south. Press i to see information about your character.");
+                    }
+                    else if (newMove.equals("i")) {
+                        System.out.println(this.toString());
+                    }
+
                     else{
                         System.out.println(newMove + " is not a valid choice. Please try again.");
                     }

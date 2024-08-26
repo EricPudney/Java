@@ -6,7 +6,7 @@ class Minion {
     
 
     public static String[] adj = {"Hairy ", "Fearsome ", "Ugly ", "Ravenous ", "Woeful ", "Savage "};
-    public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Bandit"};
+    public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Centaur"};
 
     /*
      * 

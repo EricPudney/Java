@@ -1,6 +1,5 @@
 public class Location {
 
-    
     public static String describeLocation(Dungeon dungeon, Character player) {
         
         String returnValue = "You move through the gloomy dungeon. ";
@@ -40,10 +39,14 @@ public class Location {
         return returnValue;
     }
 
+  /*
     public String toString() {
         String returnValue = "";
         return returnValue;
     }
+  */
+  
+  
 }
 
 enum Moves {
