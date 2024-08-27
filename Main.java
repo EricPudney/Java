@@ -1,35 +1,31 @@
-import java.io.IOException;
-
-
 public class Main {
+    
+    public static boolean firstTurn = true;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         Dungeon dungeon = new Dungeon(5, 5);
-        Character player = Character.CharacterCreation();
+        Hero player = Hero.CharacterCreation();
         player.currentLocation[0] = 0;
-        player.currentLocation[1] =  Math.round(dungeon.width/2);
+        player.currentLocation[1] =  Math.round(dungeon.width/2 - 1);
 
         dungeon.grid[0][player.currentLocation[1]] = 'E';
-        dungeon.introductionText();
-        
+
         while (player.isAlive && !player.foundTreasure) {
+            int[] here = {player.currentLocation[0], player.currentLocation[1]};
+            System.out.println(dungeon.describeLocation(player));
+            firstTurn = false;
+            if (player.foundTreasure) {
+                break;
+            }
+            if (dungeon.monsters[here[0]][here[1]] != null && dungeon.monsters[here[0]][here[1]].isAlive) {
+                player.encounter(dungeon.monsters[here[0]][here[1]]);
+            }
             try {
-                if (player.encounter) {
-                    Minion enemy = Minion.generateMonster();
-                    System.out.println(enemy.toString());
-                    System.out.printf("%s bravely attacks the monster!\n", player.name);
-                    player.fightMonster(enemy);
-                    player.encounter = false;
-                    if (!player.isAlive) {
-                        break;
-                    }
-                }
-                player.command(dungeon);                 
-                System.out.println(Location.describeLocation(dungeon, player));
+                player.command(dungeon);
             }
             catch (Exception e) {
-                System.err.println(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
         if (!player.isAlive) {
