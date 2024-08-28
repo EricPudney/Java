@@ -96,8 +96,7 @@ public class Hero extends Character {
         System.out.printf("You have encountered a %s! Fight or run?\n", enemy.name);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
-        String decision = c.readLine("Press a to attack or x to try to escape.");
-        System.out.println(decision);
+        String decision = c.readLine("Press a to attack or x to try to escape.\n");
             if (decision.equals("a")) {
                 this.attack(enemy);
                 if (enemy.isAlive) {
@@ -111,7 +110,7 @@ public class Hero extends Character {
                     System.out.println("You successfully evaded the monster - for now.");
                 }
                 else {
-                    System.out.printf("You failed to evade the %s!", enemy.name);
+                    System.out.printf("You failed to evade the %s!\n", enemy.name);
                     enemy.attack(this);
                 }
             }

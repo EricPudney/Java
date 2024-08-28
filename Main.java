@@ -25,7 +25,9 @@ public class Main {
                 player.command(dungeon);
             }
             catch (Exception e) {
-                System.out.println(e.getMessage());
+                if (e.getMessage().equals("You can't go that way!")) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
         if (!player.isAlive) {

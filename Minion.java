@@ -4,22 +4,7 @@ class Minion extends Character{
     public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Centaur"};
 
     /*
-     * 
-     public void attack(Minion target, int damage) {
-         System.out.printf("%s attacked %s!\n", this.name, target.name);
-         target.health -= damage;
-         if (target.health <= 0) {
-             System.out.printf("%s killed %s!\n", this.name, target.name);
-             target.isAlive = false;
-         }
-         else {
-             System.out.printf("%s now has %d health remaining.\n", target.name, target.health);
-         }
-     }
-     * 
-     * 
-     */
-
+    * 
     public void attack(Hero player) {
         System.out.printf("%s attacked %s, doing %d damage!\n", this.name, player.name, this.attack);
         player.health = player.health -= this.attack;
@@ -28,6 +13,8 @@ class Minion extends Character{
             player.isAlive = false;
         }
     }
+     * 
+     */
     
     public Minion(String name, int damage, int health, int[] location){
         this.name = name;

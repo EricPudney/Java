@@ -34,7 +34,7 @@ public class Dungeon {
 
     public String describeLocation(Hero player) {
         if (Main.firstTurn) {
-            String intro = "You stand at the entrance of a dark and gloomy dungeon. You can move through the dungeon to the north, east, and west.";
+            String intro = "You stand at the entrance of a dark and gloomy dungeon. You can move through the dungeon to the north, east, and west. Use the n, e, w and s keys to indicate which direction you want to move in.";
             return intro;
         }
         String returnValue = "You move through the gloomy dungeon. ";
@@ -67,12 +67,14 @@ public class Dungeon {
             break;
         }
         if (this.monsters[x][y] != null) {
+            String msg = "";
             if (this.monsters[x][y].isAlive) {
-                returnValue = String.format(returnValue, "You have encountered a monster! A %s stands before you, blocking the way.", monsters[x][y].name);
+                msg = String.format("You have encountered a monster! A %s stands before you, blocking the way.", monsters[x][y].name);
             }
             else {
-                returnValue = String.format(returnValue, "There is a dead %s here.", monsters[x][y].name);
+                msg = String.format("There is a dead %s here.", monsters[x][y].name);
             }
+            returnValue = returnValue.concat(msg);
         }
         return returnValue;
     }
