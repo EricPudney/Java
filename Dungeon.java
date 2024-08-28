@@ -5,12 +5,15 @@ public class Dungeon {
     int height;
     char[][] grid;
     Minion[][] monsters;
+    String[][] descriptions;
+    String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", "By pale candlelight you make out the oblong shape of the dank and musty room. ", "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", "You find yourself in a room that seems more like a cave, reeking of old cheese. ", "A pale red light suffuses this chamber, which is entirely devoid of furniture. ", "Ivy covers the walls of this room. ", "An eerie whistling in the air turns your blood cold. " };
 
     public Dungeon(int width, int height){
         this.width = width;
         this.height = height;
         this.grid = new char[width][height];
         this.monsters = new Minion[width][height];
+        this.descriptions = new String[width][height];
         double size = Math.sqrt(width * height);
         while (size > 0) {
             int x = Math.round((float)Math.random() * (width - 1));
@@ -29,7 +32,13 @@ public class Dungeon {
                 treasure = true;
             };
         }
-
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int rng = Math.round((float)Math.random() * (locations.length - 1));
+                String randomDescription = locations[rng];
+                descriptions[i][j] = randomDescription;
+            }
+       }
     }
 
     public String describeLocation(Hero player) {
@@ -40,6 +49,7 @@ public class Dungeon {
         String returnValue = "You move through the gloomy dungeon. ";
         int x = player.currentLocation[0];
         int y = player.currentLocation[1];
+        returnValue = returnValue.concat(descriptions[x][y]);
         if (x == 0) {
             returnValue = returnValue.concat("There is no way south. ");
         }
@@ -54,7 +64,7 @@ public class Dungeon {
         }
         switch (this.grid[x][y]) {    
             case 'T':
-            returnValue = returnValue.concat("You have discovered the treassure! ");
+            returnValue = returnValue.concat("You have discovered the treasure! ");
             this.grid[x][y] = 'E';
             player.foundTreasure = true;
             break;

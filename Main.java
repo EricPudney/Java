@@ -10,12 +10,16 @@ public class Main {
         player.currentLocation[1] =  Math.round(dungeon.width/2 - 1);
 
         dungeon.grid[0][player.currentLocation[1]] = 'E';
+        boolean skipDescription = false;
 
         while (player.isAlive && !player.foundTreasure) {
             int[] here = {player.currentLocation[0], player.currentLocation[1]};
-            System.out.println(dungeon.describeLocation(player));
+            if (!skipDescription) {
+                System.out.println(dungeon.describeLocation(player)); 
+            }
+            skipDescription = false;
             firstTurn = false;
-            if (player.foundTreasure) {
+            if (player.foundTreasure && (dungeon.monsters[here[0]][here[1]] == null || !dungeon.monsters[here[0]][here[1]].isAlive)) {
                 break;
             }
             if (dungeon.monsters[here[0]][here[1]] != null && dungeon.monsters[here[0]][here[1]].isAlive) {
@@ -27,6 +31,7 @@ public class Main {
             catch (Exception e) {
                 if (e.getMessage().equals("You can't go that way!")) {
                     System.out.println(e.getMessage());
+                    skipDescription = true;
                 }
             }
         }
