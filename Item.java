@@ -13,8 +13,8 @@ public class Item {
         {"Ancient book", "A finely printed tome in full calf binding"}
     };
     static String[][] magicItemList = {
-        {"Enchanted armour", "A suit of light armour that boosts your health"},
-        {"Weapon salve", "A magical preparation that increases your damage"}
+        {"Enchanted armour", "A suit of light armour that boosts your health!"},
+        {"Weapon salve", "A magical preparation that increases your damage!"}
     };
 
     public Item(String name, String description, int value) {
@@ -42,7 +42,7 @@ public class Item {
         if (rng >= 0.8) {
             int rng2 = Math.round((float)Math.random() * (magicItemList.length -1));
             String name = magicItemList[rng2][0];
-            String description = magicItemList[rng2][0];
+            String description = magicItemList[rng2][1];
             // very bad solution here, will do for now
             int healthBuff = 0;
             int attackBuff = 0;
