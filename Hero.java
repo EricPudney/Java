@@ -1,25 +1,29 @@
 import java.io.Console;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Hero extends Character {
     
-    double evasion = 0.5;
+    double evasion;
     Weapon weapon;
     Race race;
     Type type;
     int[] currentLocation = new int[2];
+    int gold = 0;
     boolean foundTreasure = false;
     boolean encounter = false;
 
     static Console c = System.console();
 
-    public Hero(int attack, int health, Type type, Race race, Weapon weapon, String name) {
+    public Hero(int attack, int health, double evasion, Type type, Race race, Weapon weapon, String name) {
         this.attack = attack;
         this.health = health;
+        this.evasion = evasion;
         this.weapon = weapon;
         this.type = type;
         this.race = race;
         this.name = name;
+        this.inventory = new ArrayList<Item>();
     }
 
     public void command(Dungeon dungeon) throws Exception {
@@ -88,12 +92,20 @@ public class Hero extends Character {
     }
     
     public String toString() {
-        String returnValue = "Your " + this.race + " character: \n".concat(this.name + " the brave " + this.type + ", armed with a " + this.weapon).concat("!\n").concat("Attack: " + this.attack + "; Health: " + this.health + "\n");
+        String returnValue = "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.";
+        if (this.inventory.size() > 0) {
+            String list = "";
+            for (Item i : this.inventory) {
+                list = list.concat(i.name + ": " + i.description + "\n");
+            }
+            String msg = "\nYou are also carrying: \n".concat(list);
+            returnValue = returnValue.concat(msg);
+        }
         return returnValue;
     }
 
     public void encounter(Minion enemy) {
-        System.out.printf("You have encountered a %s! Fight or run?\n", enemy.name);
+        System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
         String decision = c.readLine("Press a to attack or x to try to escape.\n");
@@ -160,12 +172,12 @@ public class Hero extends Character {
         
         String name = c.readLine("Give your character a name: ");
 
-        int attack = 0;
-        int health = 0;
+        int attack = 3;
+        int health = 8;
+        double evasion = 0.5;
         switch (type) {
             case warrior:
-                attack = 3;
-                health = 8;
+                evasion = 0.4;
                 break;
             case mage:
                 attack = 4;
@@ -173,23 +185,23 @@ public class Hero extends Character {
                 break;
             case ranger:
                 attack = 2;
-                health = 10;
+                evasion = 0.6;
                 break;
         }
         switch (race) {
             case human:
                 break;
             case elf:
-                attack = attack + 1;
+                evasion = evasion += 0.1;
                 health = health - 2;
                 break;
             case dwarf:
-                attack = attack -1;
-                health = health + 2;
+                evasion = evasion -= 0.1;
+                health = health + 1;
                 break;
         }
 
-        Hero PC = new Hero(attack, health, type, race, weapon, name);
+        Hero PC = new Hero(attack, health, evasion, type, race, weapon, name);
         return PC;
     }
 }

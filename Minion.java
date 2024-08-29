@@ -3,18 +3,6 @@ class Minion extends Character{
     public static String[] adj = {"Hairy ", "Fearsome ", "Ugly ", "Ravenous ", "Woeful ", "Savage "};
     public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Centaur"};
 
-    /*
-    * 
-    public void attack(Hero player) {
-        System.out.printf("%s attacked %s, doing %d damage!\n", this.name, player.name, this.attack);
-        player.health = player.health -= this.attack;
-        if (player.health <= 0) {
-            System.out.printf("%s killed %s!\n", this.name, player.name);
-            player.isAlive = false;
-        }
-    }
-     * 
-     */
     
     public Minion(String name, int damage, int health, int[] location){
         this.name = name;
