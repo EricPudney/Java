@@ -5,6 +5,7 @@ public class Item {
     int value;
     int healthBuff = 0;
     int attackBuff = 0;
+
     static String[][] itemList = {
         {"Necklace", "A simple gold necklace"},
         {"Ring", "A silver ring encrusted with rubies"},
@@ -12,6 +13,7 @@ public class Item {
         {"Platinum ore", "A lump of precious metal"},
         {"Ancient book", "A finely printed tome in full calf binding"}
     };
+    
     static String[][] magicItemList = {
         {"Enchanted armour", "A suit of light armour that boosts your health!"},
         {"Weapon salve", "A magical preparation that increases your damage!"}
