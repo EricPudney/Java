@@ -37,16 +37,17 @@ public class Main {
                     player.encounter(dungeon.monsters[here[0]][here[1]]);
                 }
                 // handles player movement
-                try {
+                if (!player.foundTreasure) {
+                    try {
                     player.command(dungeon);
-                }
-                // handles invalid commands
-                catch (Exception e) {
-                    if (e.getMessage().equals("You can't go that way!")) {
-                        System.out.println(e.getMessage());
-                        skipDescription = true;
                     }
-                }
+                // handles invalid commands
+                    catch (Exception e) {
+                        if (e.getMessage().equals("You can't go that way!")) {
+                            System.out.println(e.getMessage());
+                            skipDescription = true;
+                        }
+                }}
             }
             // Victory and loss messages
             if (!player.isAlive) {
@@ -56,7 +57,10 @@ public class Main {
                 successfulRuns += 1;
                 player.foundTreasure = false;
                 firstTurn = true;
-                System.out.printf("Hooray! %s found the treasure! you now have %d gold. Now it is time for another adventure in a larger dungeon!\n\n\n", player.name, player.gold);
+                System.out.printf("Hooray! %s found the treasure! you now have %d gold. \n\n", player.name, player.gold);
+                System.out.println("Back in town, you visit the shop before heading out on another adventure.");
+                Shop shop = new Shop(20 + (successfulRuns * 5));
+                shop.buyGoods(player);
             }
         }
     }
