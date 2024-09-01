@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Shop {
     ArrayList<Item> stock;
@@ -11,10 +12,12 @@ public class Shop {
 
     public void buyGoods(Hero player) {
         int price = 0;
-        for (Item item : player.inventory) {
-            if (this.gold > item.value) {
+        List<Item> inventory = new ArrayList<>(player.inventory);
+        for (Item item : inventory) {
+            if (this.gold > item.value && !(item instanceof MagicItem)) {
                 price += item.value;
                 this.gold -= item.value;
+                player.inventory.remove(item);
                 System.out.printf("The shopkeeper bought your %s for %d gold!\n", item.name, item.value);
             }
         }

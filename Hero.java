@@ -110,7 +110,7 @@ public class Hero extends Character {
         while (!evaded && enemy.isAlive && this.isAlive) {
         String decision = c.readLine("Press a to attack or x to try to escape.\n");
             if (decision.equals("i")) {
-                this.toString();
+                System.out.println(this.toString());
             }
             else if (decision.equals("a")) {
                 this.attack(enemy);

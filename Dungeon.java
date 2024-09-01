@@ -7,7 +7,7 @@ public class Dungeon {
     Minion[][] monsters;
     String[][] descriptions;
     Item[][] items;
-    String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", "By pale candlelight you make out the oblong shape of the dank and musty room. ", "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", "You find yourself in a room that seems more like a cave, reeking of old cheese. ", "A pale red light suffuses this chamber, which is entirely devoid of furniture. ", "Ivy covers the walls of this room. ", "An eerie whistling in the air turns your blood cold. ", "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
+    String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", "By pale candlelight you make out the oblong shape of the dank and musty room. ", "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", "You find yourself in a room that seems more like a cave and reeks of old cheese. ", "A pale red light suffuses this chamber, which is entirely devoid of furniture. ", "Ivy covers the walls of this room. ", "An eerie whistling in the air turns your blood cold. ", "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
 
     public Dungeon(int width, int height){
         this.width = width;
@@ -27,7 +27,13 @@ public class Dungeon {
             int x2 = Math.round((float)Math.random() * (width - 1));
             int y2 = Math.round((float)Math.random() * (height - 1));
             if (items[x2][y2] == null) {
-                items[x2][y2] = Item.generateItem();
+                double rng = Math.random();
+                if (rng <= 0.8) {
+                    items[x2][y2] = Item.generateItem();
+                }
+                else {
+                    items[x2][y2] = MagicItem.generateMagicItem();
+                }
                 size -= 0.5;
             };
         }
@@ -89,7 +95,8 @@ public class Dungeon {
             Item item = this.items[x][y];
             player.inventory.add(item);
             String msg = String.format("You have found an item! You add the %s to your inventory. ", item.name);
-            item.applyBuff(player);
+            // check whether this works!
+            if (item instanceof MagicItem) {((MagicItem) item).applyBuff(player);};
             returnValue = returnValue.concat(msg);
             items[x][y] = null;
         }
