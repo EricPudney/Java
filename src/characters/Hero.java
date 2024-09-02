@@ -13,6 +13,7 @@ public class Hero extends Character {
     Type type;
     public int[] currentLocation = new int[2];
     public int gold = 0;
+    public int xp = 0;
     public boolean foundTreasure = false;
     public boolean encounter = false;
 
@@ -121,11 +122,15 @@ public class Hero extends Character {
                 if (enemy.isAlive) {
                     enemy.attack(this);
                 }
+                if (!enemy.isAlive) {
+                    this.xp += 5;
+                }
             }
             else if (decision.equals("x")) {
                 double rng = Math.random();
                 if (this.evasion > rng) {
                     evaded = true;
+                    this.xp += 1;
                     System.out.println("You successfully evaded the monster - for now.");
                 }
                 else {
