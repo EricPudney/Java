@@ -38,7 +38,7 @@ public class Dungeon {
                     items[x2][y2] = Item.generateItem();
                 }
                 else {
-                    items[x2][y2] = MagicItem.generateMagicItem();
+                    items[x2][y2] = Item.generateMagicItem();
                 }
                 size -= 0.5;
             };

@@ -29,4 +29,20 @@ public class Item {
         Item item = new Item(name, description, 5);
         return item;
     }
+
+    public static Item generateMagicItem() {
+        double rng = Math.random();
+        if (rng <= 0.6) {
+            HealthBuffItem item = HealthBuffItem.generateHealthBuffItem();
+            return item;
+        }
+        else if (rng <= 0.9) {
+            AttackBuffItem item = AttackBuffItem.generateAttackBuffItem();
+            return item;
+        }
+        else {
+            EvasionBuffItem item = EvasionBuffItem.generateEvasionBuffItem();
+            return item;   
+        }
+    }
 }
