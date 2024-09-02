@@ -1,8 +1,14 @@
+package src;
 import java.util.Arrays;
 
+import src.characters.Hero;
+import src.characters.Minion;
+import src.items.Item;
+import src.items.MagicItem;
+
 public class Dungeon {
-    int width;
-    int height;
+    public int width;
+    public int height;
     char[][] grid;
     Minion[][] monsters;
     String[][] descriptions;
@@ -32,7 +38,7 @@ public class Dungeon {
                     items[x2][y2] = Item.generateItem();
                 }
                 else {
-                    items[x2][y2] = MagicItem.generateMagicItem();
+                    items[x2][y2] = Item.generateMagicItem();
                 }
                 size -= 0.5;
             };

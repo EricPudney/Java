@@ -1,7 +1,9 @@
+package src.items;
+
 public class Item {
-    String name;
-    String description;
-    int value;
+    public String name;
+    public String description;
+    public int value;
 
     static String[][] itemList = {
         {"Necklace", "A simple gold necklace"},
@@ -26,5 +28,21 @@ public class Item {
         String description = itemList[rng][1];
         Item item = new Item(name, description, 5);
         return item;
+    }
+
+    public static Item generateMagicItem() {
+        double rng = Math.random();
+        if (rng <= 0.6) {
+            HealthBuffItem item = HealthBuffItem.generateHealthBuffItem();
+            return item;
+        }
+        else if (rng <= 0.9) {
+            AttackBuffItem item = AttackBuffItem.generateAttackBuffItem();
+            return item;
+        }
+        else {
+            EvasionBuffItem item = EvasionBuffItem.generateEvasionBuffItem();
+            return item;   
+        }
     }
 }

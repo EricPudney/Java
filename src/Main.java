@@ -1,3 +1,6 @@
+package src;
+import src.characters.Hero;
+
 public class Main {
     
     public static boolean firstTurn = true;

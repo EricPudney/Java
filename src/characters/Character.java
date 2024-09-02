@@ -1,13 +1,16 @@
+package src.characters;
 import java.util.ArrayList;
 
+import src.items.Item;
+
 public class Character {
-    int attack; 
-    int health;
-    String name;
-    boolean isAlive = true;
-    int[] currentLocation;
+    public int attack; 
+    public int health;
+    public String name;
+    public boolean isAlive = true;
+    public int[] currentLocation;
     // placed here in case items added to monsters as well as heroes later
-    ArrayList<Item> inventory;
+    public ArrayList<Item> inventory;
 
     public void attack(Character target) {
         System.out.printf("%s attacks %s, doing %d damage!\n", this.name, target.name, this.attack);
