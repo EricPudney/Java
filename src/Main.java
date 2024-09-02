@@ -60,11 +60,11 @@ public class Main {
                 successfulRuns += 1;
                 player.foundTreasure = false;
                 firstTurn = true;
-                Thread.sleep(500);
+                Thread.sleep(3000);
                 System.out.printf("Hooray! %s found the treasure! you now have %d gold. \n\n", player.name, player.gold);
-                Thread.sleep(1000);
-                System.out.printf("Back in town, you visit the shop before heading out on another adventure.");
-                Thread.sleep(500);
+                Thread.sleep(3000);
+                System.out.printf("Back in town, you visit the shop before heading out on another adventure.\n\n");
+                Thread.sleep(3000);
                 Shop shop = new Shop(20 + (successfulRuns * 5));
                 shop.buyGoods(player);
             }

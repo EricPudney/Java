@@ -27,6 +27,6 @@ public class Shop {
             }
         }
         player.gold += price;
-        System.out.printf("You now have %d gold.\n", player.gold);
+        System.out.printf("You now have %d gold.\n\n", player.gold);
     }
 }
