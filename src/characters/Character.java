@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import src.items.Item;
 
 public class Character {
-    public int attack; 
+    public int attack;
+    public int maxHealth;
     public int health;
     public String name;
     public boolean isAlive = true;

@@ -21,6 +21,7 @@ public class Hero extends Character {
     public Hero(int attack, int health, double evasion, Type type, Race race, Weapon weapon, String name) {
         this.attack = attack;
         this.health = health;
+        this.maxHealth = health;
         this.evasion = evasion;
         this.weapon = weapon;
         this.type = type;

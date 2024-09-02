@@ -66,7 +66,8 @@ public class Main {
                 System.out.printf("Back in town, you visit the shop before heading out on another adventure.\n\n");
                 Thread.sleep(3000);
                 Shop shop = new Shop(20 + (successfulRuns * 5));
-                shop.buyGoods(player);
+                shop.shopVisit(player);
+                shop.doctorVisit(player);
             }
         }
     }

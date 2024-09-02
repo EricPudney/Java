@@ -33,6 +33,7 @@ public class HealthBuffItem extends Item implements MagicItem {
 
 
     public void applyBuff(Hero player) {
+        player.maxHealth += buff;
         player.health += buff;
     }
 }
