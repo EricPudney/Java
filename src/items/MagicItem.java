@@ -1,3 +1,8 @@
+package src.items;
+
+import src.characters.Hero;
+
+
 public class MagicItem extends Item {
     BuffType buffType;
     double buff;

@@ -1,5 +1,10 @@
+package src;
 import java.util.ArrayList;
 import java.util.List;
+
+import src.characters.Hero;
+import src.items.Item;
+import src.items.MagicItem;
 
 public class Shop {
     ArrayList<Item> stock;

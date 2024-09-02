@@ -1,17 +1,20 @@
+package src.characters;
 import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import src.Dungeon;
+import src.items.Item;
+
 public class Hero extends Character {
-    
-    double evasion;
+    public double evasion;
     Weapon weapon;
     Race race;
     Type type;
-    int[] currentLocation = new int[2];
-    int gold = 0;
-    boolean foundTreasure = false;
-    boolean encounter = false;
+    public int[] currentLocation = new int[2];
+    public int gold = 0;
+    public boolean foundTreasure = false;
+    public boolean encounter = false;
 
     static Console c = System.console();
 

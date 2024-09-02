@@ -1,7 +1,9 @@
+package src.items;
+
 public class Item {
-    String name;
-    String description;
-    int value;
+    public String name;
+    public String description;
+    public int value;
 
     static String[][] itemList = {
         {"Necklace", "A simple gold necklace"},

@@ -1,4 +1,6 @@
-class Minion extends Character{
+package src.characters;
+
+public class Minion extends Character{
     
     public static String[] adj = {"Hairy ", "Fearsome ", "Ugly ", "Ravenous ", "Woeful ", "Savage "};
     public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Centaur"};
