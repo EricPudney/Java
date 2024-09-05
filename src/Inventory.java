@@ -36,7 +36,7 @@ public class Inventory {
     }
 
     public String toString() {
-        String returnValue = "Your inventory contains: \n";
+        String returnValue = "The inventory contains: \n";
         int i = 1;
         for (Item item : this.items) {
             if (item != null) {
@@ -45,7 +45,7 @@ public class Inventory {
                 i++;
             }
         }
-        if (returnValue.compareTo("Your inventory contains: \n") == 0) {
+        if (returnValue.compareTo("The inventory contains: \n") == 0) {
             returnValue = returnValue.concat("Nothing at all!");
         }
         return returnValue;
