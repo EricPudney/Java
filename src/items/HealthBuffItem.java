@@ -23,9 +23,9 @@ public class HealthBuffItem extends Item implements MagicItem {
 
     public static HealthBuffItem generateHealthBuffItem() {
         HealthBuffItem item = new HealthBuffItem();
-        int rng = Math.round((float)Math.random() * (healthItemList.length -1));
-        item.name = healthItemList[rng][0];
-        item.description = healthItemList[rng][1];
+        int index = rng.nextInt(healthItemList.length -1);
+        item.name = healthItemList[index][0];
+        item.description = healthItemList[index][1];
         item.buff = 1;
         item.value = 20;
         return item;

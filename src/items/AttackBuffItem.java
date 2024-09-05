@@ -22,9 +22,9 @@ public class AttackBuffItem extends Item implements MagicItem {
 
     public static AttackBuffItem generateAttackBuffItem() {
         AttackBuffItem item = new AttackBuffItem();
-        int rng = Math.round((float)Math.random() * (attackItemList.length -1));
-        item.name = attackItemList[rng][0];
-        item.description = attackItemList[rng][1];
+        int index = rng.nextInt(attackItemList.length -1);
+        item.name = attackItemList[index][0];
+        item.description = attackItemList[index][1];
         item.buff = 1;
         item.value = 20;
         return item;

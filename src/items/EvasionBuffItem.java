@@ -22,9 +22,9 @@ public class EvasionBuffItem extends Item implements MagicItem {
 
     public static EvasionBuffItem generateEvasionBuffItem() {
         EvasionBuffItem item = new EvasionBuffItem();
-        int rng = Math.round((float)Math.random() * (evasionItemList.length -1));
-        item.name = evasionItemList[rng][0];
-        item.description = evasionItemList[rng][1];
+        int index = rng.nextInt(evasionItemList.length -1);
+        item.name = evasionItemList[index][0];
+        item.description = evasionItemList[index][1];
         item.buff = 0.1;
         item.value = 20;
         return item;

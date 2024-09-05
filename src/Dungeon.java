@@ -1,5 +1,6 @@
 package src;
 import java.util.Arrays;
+import java.util.Random;
 
 import src.characters.Hero;
 import src.characters.Minion;
@@ -13,7 +14,16 @@ public class Dungeon {
     Minion[][] monsters;
     String[][] descriptions;
     Item[][] items;
-    String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", "By pale candlelight you make out the oblong shape of the dank and musty room. ", "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", "You find yourself in a room that seems more like a cave and reeks of old cheese. ", "A pale red light suffuses this chamber, which is entirely devoid of furniture. ", "Ivy covers the walls of this room. ", "An eerie whistling in the air turns your blood cold. ", "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
+    String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 
+    "By pale candlelight you make out the oblong shape of the dank and musty room. ", 
+    "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", 
+    "You find yourself in a room that seems more like a cave and reeks of old cheese. ", 
+    "A pale red light suffuses this chamber, which is entirely devoid of furniture. ", 
+    "Ivy covers the walls of this room. ", 
+    "An eerie whistling in the air turns your blood cold. ", 
+    "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
+    
+    private static Random rng = new Random();
 
     public Dungeon(int width, int height){
         this.width = width;
@@ -22,40 +32,46 @@ public class Dungeon {
         this.monsters = new Minion[width][height];
         this.descriptions = new String[width][height];
         this.items = new Item[width][height];
+
+        // fills the dungeon with a suitable number of items and onsters
         double size = Math.sqrt(width * height);
         while (size > 0) {
-            int x = Math.round((float)Math.random() * (width - 1));
-            int y = Math.round((float)Math.random() * (height - 1));
+            int x = rng.nextInt(width);
+            int y = rng.nextInt(height);
             if (monsters[x][y] == null) {
                 monsters[x][y] = Minion.generateMonster(x, y);
                 size -= 0.5;
             };
-            int x2 = Math.round((float)Math.random() * (width - 1));
-            int y2 = Math.round((float)Math.random() * (height - 1));
-            if (items[x2][y2] == null) {
+            x = rng.nextInt(width);
+            y = rng.nextInt(height);
+            if (items[x][y] == null) {
                 double rng = Math.random();
                 if (rng <= 0.8) {
-                    items[x2][y2] = Item.generateItem();
+                    items[x][y] = Item.generateItem();
                 }
                 else {
-                    items[x2][y2] = Item.generateMagicItem();
+                    items[x][y] = Item.generateMagicItem();
                 }
                 size -= 0.5;
             };
         }
+
+        // places the treasure hoard somewhere in the dungeon
         boolean treasure = false;
         while (treasure == false) {
-            int x = Math.round((float)Math.random() * (width - 1));
-            int y = Math.round((float)Math.random() * (height - 1));
+            int x = rng.nextInt(width);
+            int y = rng.nextInt(height);
             if (grid[x][y] == '\u0000') {
                 grid[x][y] = 'T';
                 treasure = true;
             };
         }
+
+        // assigns each location in the dungeon a short descriptive text
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                int rng = Math.round((float)Math.random() * (locations.length - 1));
-                String randomDescription = locations[rng];
+                int descriptionIndex = rng.nextInt(locations.length - 1);
+                String randomDescription = locations[descriptionIndex];
                 descriptions[i][j] = randomDescription;
             }
        }

@@ -13,7 +13,8 @@ public class Hero extends Character {
     Type type;
     public int[] currentLocation = new int[2];
     public int gold = 0;
-    public int xp = 0;
+    private int xp = 0;
+    public int level = 1;
     public boolean foundTreasure = false;
     public boolean encounter = false;
 
@@ -29,6 +30,23 @@ public class Hero extends Character {
         this.race = race;
         this.name = name;
         this.inventory = new ArrayList<Item>();
+    }
+
+    public void addXp(int xp) {
+        this.xp += xp;
+        if (this.xp / 20 >= level) {
+            this.levelUp();
+        }
+    }
+
+    public void levelUp() {
+        this.level += 1;
+        this.maxHealth += 1;
+        this.health += 1;
+        if (this.level % 5 == 0) {
+            this.attack += 1;
+        }
+        System.out.printf("%s levelled up and is now level %d!\n", this.name, this.level);
     }
 
     public void command(Dungeon dungeon) throws Exception {
@@ -97,7 +115,7 @@ public class Hero extends Character {
     }
     
     public String toString() {
-        String returnValue = "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.";
+        String returnValue = "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
         if (this.inventory.size() > 0) {
             String list = "";
             for (Item i : this.inventory) {
@@ -123,14 +141,14 @@ public class Hero extends Character {
                     enemy.attack(this);
                 }
                 if (!enemy.isAlive) {
-                    this.xp += 5;
+                    this.addXp(5);
                 }
             }
             else if (decision.equals("x")) {
                 double rng = Math.random();
                 if (this.evasion > rng) {
                     evaded = true;
-                    this.xp += 1;
+                    this.addXp(1);
                     System.out.println("You successfully evaded the monster - for now.");
                 }
                 else {

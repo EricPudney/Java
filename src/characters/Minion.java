@@ -1,9 +1,13 @@
 package src.characters;
 
+import java.util.Random;
+
 public class Minion extends Character{
     
     public static String[] adj = {"Hairy ", "Fearsome ", "Ugly ", "Ravenous ", "Woeful ", "Savage "};
     public static String[] noun = {"Goblin", "Ogre", "Hobgoblin", "Spider", "Gnome", "Centaur"};
+
+    private static Random rng = new Random();
 
     
     public Minion(String name, int damage, int health, int[] location){
@@ -19,11 +23,11 @@ public class Minion extends Character{
     }
 
     public static Minion generateMonster(int xloc, int yloc) {
-        int adjIndex = Math.round((float)Math.random() * 5);
-        int nounIndex = Math.round((float)Math.random() * 5);
+        int adjIndex = rng.nextInt(adj.length - 1);
+        int nounIndex = rng.nextInt(noun.length - 1);
         String name = adj[adjIndex].concat(noun[nounIndex]);
-        int damage = Math.round((float)Math.random() * 5) + 1;
-        int health = Math.round((float)Math.random() * 5) + 1;
+        int damage = rng.nextInt(5) + 1;
+        int health = rng.nextInt(5) + 1;
         int[] location = {xloc, yloc};
         return new Minion(name, damage, health, location);
     }
