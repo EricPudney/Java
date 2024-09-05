@@ -38,6 +38,9 @@ public class Main {
                 // starts encounter with a monster
                 if (dungeon.monsters[here[0]][here[1]] != null && dungeon.monsters[here[0]][here[1]].isAlive) {
                     player.encounter(dungeon.monsters[here[0]][here[1]]);
+                    if (player.isAlive) {
+                        System.out.println(dungeon.describeLocation(player));
+                    }
                 }
                 // handles player movement
                 if (!player.foundTreasure) {
@@ -60,11 +63,11 @@ public class Main {
                 successfulRuns += 1;
                 player.foundTreasure = false;
                 firstTurn = true;
-                Thread.sleep(3000);
+                Thread.sleep(1500);
                 System.out.printf("Hooray! %s found the treasure! you now have %d gold. \n\n", player.name, player.gold);
-                Thread.sleep(3000);
+                Thread.sleep(2000);
                 System.out.printf("Back in town, you visit the shop before heading out on another adventure.\n\n");
-                Thread.sleep(3000);
+                Thread.sleep(2000);
                 Shop shop = new Shop(20 + (successfulRuns * 5));
                 shop.shopVisit(player);
                 shop.doctorVisit(player);

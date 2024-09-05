@@ -1,9 +1,9 @@
 package src.characters;
 import java.io.Console;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import src.Dungeon;
+import src.Inventory;
 import src.items.Item;
 
 public class Hero extends Character {
@@ -17,6 +17,7 @@ public class Hero extends Character {
     public int level = 1;
     public boolean foundTreasure = false;
     public boolean encounter = false;
+    public Inventory inventory;
 
     static Console c = System.console();
 
@@ -29,7 +30,7 @@ public class Hero extends Character {
         this.type = type;
         this.race = race;
         this.name = name;
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new Inventory(8);
     }
 
     public void addXp(int xp) {
@@ -60,13 +61,26 @@ public class Hero extends Character {
             }
             catch (Exception e) {
                 if (newMove.equals("p")) {
-                    System.out.println("x: " + this.currentLocation[0] + ", y: " + this.currentLocation[1]);
+                    System.out.println(dungeon);
                 }
                 else if (newMove.equals("h")) {
-                    System.out.println("Press p for your x/y location in the dungeon. Use n, e, w and s to travel north, east, west or south. Press i to see information about your character.");
+                    System.out.println("Press p for your x/y location in the dungeon. Use n, e, w and s to travel north, east, west or south. Press i to see your inventory and c for information about your character. If you find an item you can press t to add it to your inventory.");
+                }
+                else if (newMove.equals("c")) {
+                    System.out.println(this);
                 }
                 else if (newMove.equals("i")) {
-                    System.out.println(this.toString());
+                    System.out.println(this.inventory);
+                }
+                else if (newMove.equals("t")) {
+                    Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
+                    if (item == null) {
+                        System.out.println("There is nothing here to take!");
+                    }
+                    if (item != null && this.inventory.addToInventory(item, this)) {
+                        dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = null;
+                        System.out.printf("You added the %s to your inventory.\n", item.name);
+                    };
                 }
                 else{
                     System.out.println(newMove + " is not a valid choice. Please try again.");
@@ -82,6 +96,7 @@ public class Hero extends Character {
             case n:
                 if (this.currentLocation[0] <= dungeon.width - 2) {
                     this.currentLocation[0] = this.currentLocation[0] += 1;
+                    System.out.println("You move through the gloomy dungeon...");
                 }
                 else {
                     throw new Exception("You can't go that way!");
@@ -90,6 +105,7 @@ public class Hero extends Character {
             case e:
                 if (this.currentLocation[1] > 0) {
                     this.currentLocation[1] = this.currentLocation[1] -= 1;
+                    System.out.println("You move through the gloomy dungeon...");
                 }
                 else {
                     throw new Exception("You can't go that way!");
@@ -98,6 +114,7 @@ public class Hero extends Character {
             case w:
                 if (this.currentLocation[1] <= dungeon.height - 2) {
                     this.currentLocation[1] = this.currentLocation[1] += 1;
+                    System.out.println("You move through the gloomy dungeon...");
                 }
                 else {
                     throw new Exception("You can't go that way!");
@@ -106,6 +123,7 @@ public class Hero extends Character {
             case s:
                 if (this.currentLocation[0] > 0) {
                     this.currentLocation[0] = this.currentLocation[0] -= 1;
+                    System.out.println("You move through the gloomy dungeon...");
                 }
                 else {
                     throw new Exception("You can't go that way!");
@@ -116,14 +134,6 @@ public class Hero extends Character {
     
     public String toString() {
         String returnValue = "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
-        if (this.inventory.size() > 0) {
-            String list = "";
-            for (Item i : this.inventory) {
-                list = list.concat(i.name + ": " + i.description + "\n");
-            }
-            String msg = "\nYou are also carrying: \n".concat(list);
-            returnValue = returnValue.concat(msg);
-        }
         return returnValue;
     }
 
@@ -148,6 +158,13 @@ public class Hero extends Character {
                 double rng = Math.random();
                 if (this.evasion > rng) {
                     evaded = true;
+                    // moves monster a bit if evaded - bit of a crap solution
+                    try {
+                        enemy.currentLocation[0] = enemy.currentLocation[0] += 1;
+                    }
+                    catch (Exception i) {
+                        enemy.currentLocation[0] = enemy.currentLocation[0] -= 1;
+                    }
                     this.addXp(1);
                     System.out.println("You successfully evaded the monster - for now.");
                 }

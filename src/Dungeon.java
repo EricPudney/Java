@@ -5,7 +5,6 @@ import java.util.Random;
 import src.characters.Hero;
 import src.characters.Minion;
 import src.items.Item;
-import src.items.MagicItem;
 
 public class Dungeon {
     public int width;
@@ -13,7 +12,7 @@ public class Dungeon {
     char[][] grid;
     Minion[][] monsters;
     String[][] descriptions;
-    Item[][] items;
+    public Item[][] items;
     String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 
     "By pale candlelight you make out the oblong shape of the dank and musty room. ", 
     "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", 
@@ -79,13 +78,16 @@ public class Dungeon {
 
     public String describeLocation(Hero player) {
         if (Main.firstTurn) {
-            String intro = "HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, i for information about your character, and p for your position in the dungeon.\nYou stand at the entrance of a dark and gloomy dungeon. You can move through the dungeon to the north, east, and west.";
+            String intro = "HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, i to see your inventory, and p for your position in the dungeon. If you find an item you can press t to add it to your inventory\nYou stand at the entrance of a dark and gloomy dungeon. You can move through the dungeon to the north, east, and west.";
             return intro;
         }
-        String returnValue = "You move through the gloomy dungeon. ";
         int x = player.currentLocation[0];
         int y = player.currentLocation[1];
-        returnValue = returnValue.concat(descriptions[x][y]);
+        if (this.monsters[x][y] != null && this.monsters[x][y].isAlive) {
+            String msg = String.format("You have encountered a monster! A %s stands before you, blocking the way.", monsters[x][y].name);
+            return msg;
+        }
+        String returnValue = (descriptions[x][y]);
         if (x == 0) {
             returnValue = returnValue.concat("There is no way south. ");
         }
@@ -113,26 +115,17 @@ public class Dungeon {
             this.grid[x][y] = 'E';
             break;
         }
+        if (this.monsters[x][y] != null && !this.monsters[x][y].isAlive) {
+            String msg = String.format("There is a dead %s here.", monsters[x][y].name);
+            returnValue = returnValue.concat(msg);
+        }
         if (this.items[x][y] != null) {
             Item item = this.items[x][y];
-            player.inventory.add(item);
-            String msg = String.format("You have found an item! You add the %s to your inventory. ", item.name);
-            // check whether this works!
-            if (item instanceof MagicItem) {((MagicItem) item).applyBuff(player);};
-            returnValue = returnValue.concat(msg);
-            items[x][y] = null;
-        }
-        if (this.monsters[x][y] != null) {
-            String msg = "";
-            if (this.monsters[x][y].isAlive) {
-                msg = String.format("You have encountered a monster! A %s stands before you, blocking the way.", monsters[x][y].name);
-            }
-            else {
-                msg = String.format("There is a dead %s here.", monsters[x][y].name);
-            }
+            String msg = String.format("You have found an item! There is a %s here. ", item.name);
             returnValue = returnValue.concat(msg);
         }
         return returnValue;
+        
     }
 
     public String toString() {

@@ -1,11 +1,9 @@
 package src;
 import java.io.Console;
 import java.util.ArrayList;
-import java.util.List;
 
 import src.characters.Hero;
-import src.items.Item;
-import src.items.MagicItem;
+import src.items.*;
 
 public class Shop {
     ArrayList<Item> stock;
@@ -19,11 +17,11 @@ public class Shop {
 
     public void shopVisit(Hero player) {
         boolean decisionMade = false;
-        while (!decisionMade && player.inventory.size() > 0) {
+        while (!decisionMade) {
         String decision = c.readLine("Do you want to sell your valuable items (y/n)?");
             if (decision.equals("y")) {
                 try {
-                    this.sellGoods(player);
+                 //   this.sellGoods(player);
                     decisionMade = true;
                 }
                 catch (Exception e) {
@@ -56,8 +54,8 @@ public class Shop {
             }
         }
     }
-
-    public void sellGoods(Hero player) throws InterruptedException {
+/*
+ * public void sellGoods(Hero player) throws InterruptedException {
         int price = 0;
         List<Item> inventory = new ArrayList<>(player.inventory);
         for (Item item : inventory) {
@@ -74,4 +72,6 @@ public class Shop {
         }
         player.gold += price;
     }
+ */
+    
 }
