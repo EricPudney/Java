@@ -18,7 +18,7 @@ public class Shop {
     public void shopVisit(Hero player) {
         boolean doneShopping = false;
         while (!doneShopping) {
-        String decision = c.readLine("Do you want to buy, sell, or exit the shop (b/s/x)?");
+        String decision = c.readLine("Do you want to buy, sell, or exit the shop (b/s/x)?\n");
             if (decision.equals("b")) {
                 this.buyGoods(player);
             }
@@ -29,26 +29,79 @@ public class Shop {
                 doneShopping = true;
             }
             else {
-                System.out.println("Please enter b to buy, s to sell, or x to leave the shop.");
+                System.out.println("Please enter b to buy, s to sell, or x to leave the shop.\n");
             }
         }
     }
 
     private Inventory generateStock() {
         Inventory inventory = new Inventory(8);
-        // stock to include new item types including healing potion and backpack (extends inventory)
-        inventory.items[0] = new Item();
+        inventory.items[0] = Item.generateItem();
+        inventory.items[1] = Item.generateMagicItem();
         return inventory;
     }
 
     public void buyGoods(Hero player) {
-        System.out.println(this.stock);
+        boolean finished = false;
+        while (!finished) {
+            System.out.println(this.stock);
+            String input = c.readLine("Enter the number of the item you wish to buy or x to exit.\n");
+            if (input.equals("x")) {
+                finished = true;
+            }
+            else {
+                try {
+                    int itemIndex = Integer.parseInt(input) - 1;
+                    // not sure if this if statement is needed, or what would happen if a null value was defined as an Item ???
+                    if (this.stock.items[itemIndex] != null) {
+                        Item itemBought = this.stock.items[itemIndex];
+                        player.gold -= itemBought.value;
+                        player.inventory.addToInventory(itemBought, player);
+                        if (this.stock.removeFromInventory(itemIndex)) {
+                            System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
+                        }
+                        else {
+                            System.out.println("Invalid item reference!\n");
+                        }
+                    }
+                    else {
+                        System.out.println("Invalid item reference!\n");
+                    }
+                }
+                catch (Exception e) {
+                    System.out.println("Invalid input!\n");
+                }
+            }
+        }
         // choose item to buy by entering a number, or x to exit
     }
     
     public void sellGoods(Hero player) {
-        System.out.println(player.inventory);
-        // choose item to sell by entering a number, or x to exit
+        boolean finished = false;
+        while (!finished) {
+            System.out.println(player.inventory);
+            String input = c.readLine("Enter the number of the item you wish to sell or x to exit.\n");
+            if (input.equals("x")) {
+                finished = true;
+            }
+            else {
+                try {
+                    int itemIndex = Integer.parseInt(input) - 1;
+                    if (player.inventory.items[itemIndex] != null) {
+                        Item itemSold = player.inventory.items[itemIndex];
+                        player.gold += itemSold.value;
+                        player.inventory.removeFromInventory(itemIndex);
+                        System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
+                    }
+                    else {
+                        System.out.println("Invalid item reference!\n");
+                    }
+                }
+                catch (Exception e) {
+                    System.out.println("Invalid input!\n");
+                }
+            }
+        }
     }
 
     public void doctorVisit(Hero player) {

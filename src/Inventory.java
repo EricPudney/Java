@@ -28,8 +28,10 @@ public class Inventory {
     }
 
     public boolean removeFromInventory(int index) {
-        if (this.items[index - 1] instanceof Item) {
-            this.items[index - 1] = null;
+        if (this.items[index] instanceof Item) {
+            this.items[index] = null;
+            // Need to find a way to move all null values to the end of the array
+            // items.sort();
             return true;
         }
         return false;
