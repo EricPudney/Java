@@ -1,40 +1,42 @@
 package src;
 
 import java.io.Console;
+import java.util.ArrayList;
 
 import src.characters.Hero;
 import src.items.*;
 
 public class Inventory {
-    public Item[] items;
+    public ArrayList<Item> items;
+    public int maxSize;
     static Console c = System.console();
 
     public Inventory(int spaces) {
-        this.items = new Item[8];
+        this.items = new ArrayList<Item>();
+        this.maxSize = spaces;
     }
 
     public boolean addToInventory(Item item, Hero player) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i] == null) {
-                this.items[i] = item;
-                if (item instanceof MagicItem) {
-                    ((MagicItem) item).applyBuff(player);
-                }
-                return true;
-            }
+        if (items.size() >= maxSize) {
+            System.out.println("There is no room left in your inventory!");
+            return false;
         }
-        System.out.println("There is no room left in your inventory!");
-        return false;
+        else {
+            items.add(item);
+            if (item instanceof MagicItem) {
+                ((MagicItem) item).applyBuff(player);
+            }
+            return true;
+        }
     }
 
     public boolean removeFromInventory(int index) {
-        if (this.items[index] instanceof Item) {
-            this.items[index] = null;
-            // Need to find a way to move all null values to the end of the array
-            // items.sort();
+        if (items.remove(index) instanceof Item) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     public String toString() {

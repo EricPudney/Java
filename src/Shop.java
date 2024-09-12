@@ -36,8 +36,8 @@ public class Shop {
 
     private Inventory generateStock() {
         Inventory inventory = new Inventory(8);
-        inventory.items[0] = Item.generateItem();
-        inventory.items[1] = Item.generateMagicItem();
+        inventory.items.add(Item.generateItem());
+        inventory.items.add(Item.generateMagicItem());
         return inventory;
     }
 
@@ -52,28 +52,29 @@ public class Shop {
             else {
                 try {
                     int itemIndex = Integer.parseInt(input) - 1;
-                    // not sure if this if statement is needed, or what would happen if a null value was defined as an Item ???
-                    if (this.stock.items[itemIndex] != null) {
-                        Item itemBought = this.stock.items[itemIndex];
-                        player.gold -= itemBought.value;
-                        player.inventory.addToInventory(itemBought, player);
-                        if (this.stock.removeFromInventory(itemIndex)) {
-                            System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
+                    Item itemBought = this.stock.items.get(itemIndex);
+                        if (itemBought != null && player.gold >= itemBought.value) {
+                            if (player.inventory.addToInventory(itemBought, player)) {
+                                if (this.stock.removeFromInventory(itemIndex)) {
+                                    System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
+                                    player.gold -= itemBought.value;
+                                }
+                                else {System.out.println("Something went wrong - unable to purchase item.");
+                            }
+                            }
+                            else if (player.gold < itemBought.value) {
+                                System.out.println("You can't afford that!");
+                            }
                         }
                         else {
                             System.out.println("Invalid item reference!\n");
                         }
-                    }
-                    else {
-                        System.out.println("Invalid item reference!\n");
-                    }
                 }
                 catch (Exception e) {
                     System.out.println("Invalid input!\n");
                 }
             }
         }
-        // choose item to buy by entering a number, or x to exit
     }
     
     public void sellGoods(Hero player) {
@@ -87,11 +88,17 @@ public class Shop {
             else {
                 try {
                     int itemIndex = Integer.parseInt(input) - 1;
-                    if (player.inventory.items[itemIndex] != null) {
-                        Item itemSold = player.inventory.items[itemIndex];
-                        player.gold += itemSold.value;
-                        player.inventory.removeFromInventory(itemIndex);
-                        System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
+                    if (player.inventory.items.get(itemIndex) != null) {
+                        Item itemSold = player.inventory.items.get(itemIndex);
+                        if (this.gold >= itemSold.value) {
+                            player.gold += itemSold.value;
+                            this.gold -= itemSold.value;
+                            player.inventory.items.remove(itemSold);
+                            System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
+                        }
+                        else {
+                            System.out.printf("The shopkeeper only has %d gold and can't afford your %s!\n", this.gold, itemSold.name);
+                        }
                     }
                     else {
                         System.out.println("Invalid item reference!\n");
