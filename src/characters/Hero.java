@@ -50,6 +50,10 @@ public class Hero extends Character {
         System.out.printf("%s levelled up and is now level %d!\n", this.name, this.level);
     }
 
+    public static void printHelpText() {
+        System.out.println("HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, i to see your inventory, and p for your position in the dungeon. If you find an item you can press t to add it to your inventory.");
+    }
+
     public void command(Dungeon dungeon) throws Exception {
         boolean noError = false;
         Moves move = null;
@@ -64,7 +68,7 @@ public class Hero extends Character {
                     System.out.println(dungeon);
                 }
                 else if (newMove.equals("h")) {
-                    System.out.println("Press p for your x/y location in the dungeon. Use n, e, w and s to travel north, east, west or south. Press i to see your inventory and c for information about your character. If you find an item you can press t to add it to your inventory.");
+                    printHelpText();
                 }
                 else if (newMove.equals("c")) {
                     System.out.println(this);

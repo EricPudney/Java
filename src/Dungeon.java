@@ -78,8 +78,8 @@ public class Dungeon {
 
     public String describeLocation(Hero player) {
         if (Main.firstTurn) {
-            String intro = "HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, i to see your inventory, and p for your position in the dungeon. If you find an item you can press t to add it to your inventory\nYou stand at the entrance of a dark and gloomy dungeon. You can move through the dungeon to the north, east, and west.";
-            return intro;
+            Hero.printHelpText();
+            return "";
         }
         int x = player.currentLocation[0];
         int y = player.currentLocation[1];
