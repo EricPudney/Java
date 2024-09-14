@@ -10,7 +10,7 @@ public class Dungeon {
     public int width;
     public int height;
     char[][] grid;
-    Minion[][] monsters;
+    public Minion[][] monsters;
     String[][] descriptions;
     public Item[][] items;
     String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 

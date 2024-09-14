@@ -137,7 +137,7 @@ public class Hero extends Character {
         return returnValue;
     }
 
-    public void encounter(Minion enemy) {
+    public void encounter(Minion enemy, Dungeon dungeon) {
         System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
@@ -158,15 +158,10 @@ public class Hero extends Character {
                 double rng = Math.random();
                 if (this.evasion > rng) {
                     evaded = true;
-                    // moves monster a bit if evaded - bit of a crap solution
-                    try {
-                        enemy.currentLocation[0] = enemy.currentLocation[0] += 1;
-                    }
-                    catch (Exception i) {
-                        enemy.currentLocation[0] = enemy.currentLocation[0] -= 1;
-                    }
-                    this.addXp(1);
-                    System.out.println("You successfully evaded the monster - for now.");
+                    // not a great solution, it would be better to leave the monsters array as protected, but can't think of a better way to do this.
+                    dungeon.monsters[enemy.currentLocation[0]][enemy.currentLocation[1]] = null;
+                    this.addXp(2);
+                    System.out.println("You have successfully evaded the monster.");
                 }
                 else {
                     System.out.printf("You failed to evade the %s!\n", enemy.name);

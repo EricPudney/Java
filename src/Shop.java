@@ -81,7 +81,7 @@ public class Shop {
         boolean finished = false;
         while (!finished) {
             System.out.println(player.inventory);
-            String input = c.readLine("Enter the number of the item you wish to sell or x to exit.\n");
+            String input = c.readLine("The shopkeeper has %d gold. Enter the number of the item you wish to sell or x to exit.\n", this.gold);
             if (input.equals("x")) {
                 finished = true;
             }
@@ -119,6 +119,7 @@ public class Shop {
                     player.gold -= 10;
                     player.health = player.maxHealth;
                     decisionMade = true;
+                    System.out.println("The doctor has restored you to full health.");
             }
             else if (decision.equals("n")) {
                 decisionMade = true;
@@ -127,34 +128,8 @@ public class Shop {
                 System.out.println("Please enter y or n.");
             }
         }
-    }
-/*
-    public String toString() {
-        String returnValue = "The shop has the following items in stock: ";
-        int i = 1;
-        for (Item item : stock.items) {
-
+        if (player.gold < 10) {
+            System.out.println("You can't afford to visit the doctor!");
         }
-        return returnValue;
     }
-
- * public void sellGoods(Hero player) throws InterruptedException {
-        int price = 0;
-        List<Item> inventory = new ArrayList<>(player.inventory);
-        for (Item item : inventory) {
-            if (this.gold > item.value && !(item instanceof MagicItem)) {
-                price += item.value;
-                this.gold -= item.value;
-                player.inventory.remove(item);
-                System.out.printf("The shopkeeper bought your %s for %d gold!\n", item.name, item.value);
-                Thread.sleep(750);
-            }
-            else if (this.gold < item.value && !(item instanceof MagicItem)) {
-                System.out.println("The shopkeeper can't afford to buy any more of your valuables!");
-            }
-        }
-        player.gold += price;
-    }
- */
-    
 }

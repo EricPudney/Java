@@ -37,7 +37,7 @@ public class Main {
                 }
                 // starts encounter with a monster
                 if (dungeon.monsters[here[0]][here[1]] != null && dungeon.monsters[here[0]][here[1]].isAlive) {
-                    player.encounter(dungeon.monsters[here[0]][here[1]]);
+                    player.encounter(dungeon.monsters[here[0]][here[1]], dungeon);
                     if (player.isAlive) {
                         System.out.println(dungeon.describeLocation(player));
                     }
