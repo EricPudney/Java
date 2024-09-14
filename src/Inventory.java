@@ -9,6 +9,7 @@ import src.items.*;
 public class Inventory {
     public ArrayList<Item> items;
     public int maxSize;
+    boolean containsBag = false;
     static Console c = System.console();
 
     public Inventory(int spaces) {
@@ -21,10 +22,18 @@ public class Inventory {
             System.out.println("There is no room left in your inventory!");
             return false;
         }
+        else if (item instanceof Bag && containsBag) {
+            System.out.println("Inventory already contains a bag!");
+            return false;
+        }
         else {
             items.add(item);
             if (item instanceof MagicItem) {
                 ((MagicItem) item).applyBuff(player);
+            }
+            if (item instanceof Bag) {
+                ((Bag) item).expandInventory(player);
+                player.inventory.containsBag = true;
             }
             return true;
         }

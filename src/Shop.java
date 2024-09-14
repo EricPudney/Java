@@ -38,6 +38,7 @@ public class Shop {
         Inventory inventory = new Inventory(8);
         inventory.items.add(Item.generateItem());
         inventory.items.add(Item.generateMagicItem());
+        inventory.items.add(new Bag());
         return inventory;
     }
 
