@@ -68,7 +68,7 @@ public class Shop {
             return;
         }
         if (this.gold >= itemSold.value) {
-            if (player.inventory.items.remove(itemSold)) {
+            if (player.inventory.removeFromInventory(itemSold, player)) {
                 System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
                 player.gold += itemSold.value;
                 this.inventory.items.add(itemSold);

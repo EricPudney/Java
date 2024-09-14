@@ -39,6 +39,19 @@ public class Inventory {
         }
     }
 
+    public boolean removeFromInventory(Item item, Hero player) {
+        if (this.items.remove(item)) {
+            if (item instanceof MagicItem) {
+                ((MagicItem) item).removeBuff(player);
+            }
+            if (item instanceof Bag) {
+                ((Bag) item).shrinkInventory(player);
+            }
+            return true;
+        }
+        return false;
+    }
+
     public Item selectFromInventory(String purpose) {
         boolean finished = false;
         while (!finished) {

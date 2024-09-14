@@ -30,8 +30,11 @@ public class AttackBuffItem extends Item implements MagicItem {
         return item;
     }
 
-
     public void applyBuff(Hero player) {
         player.attack += buff;
+    }
+
+    public void removeBuff(Hero player) {
+        player.attack -= buff;
     }
 }

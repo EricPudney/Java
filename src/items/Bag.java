@@ -13,4 +13,8 @@ public class Bag extends Item {
     public void expandInventory(Hero player) {
         player.inventory.maxSize += 5;
     }
+
+    public void shrinkInventory(Hero player) {
+        player.inventory.maxSize -= 5;
+    }
 }

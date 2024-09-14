@@ -33,4 +33,8 @@ public class EvasionBuffItem extends Item implements MagicItem {
     public void applyBuff(Hero player) {
         player.evasion += buff;
     }
+    
+    public void removeBuff(Hero player) {
+        player.evasion -= buff;
+    }
 }
