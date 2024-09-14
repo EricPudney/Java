@@ -39,13 +39,29 @@ public class Inventory {
         }
     }
 
-    public boolean removeFromInventory(int index) {
-        if (items.remove(index) instanceof Item) {
-            return true;
+    public Item selectFromInventory(String purpose) {
+        boolean finished = false;
+        while (!finished) {
+            System.out.println(this);
+            String input = c.readLine("Enter the number of the item you wish to %s or x to cancel.\n", purpose);
+            if (input.equals("x")) {
+                finished = true;
+            }
+            else {
+                try {
+                    int itemIndex = Integer.parseInt(input) - 1;
+                    Item item = this.items.get(itemIndex);
+                    if (item == null) {
+                        System.out.println("Invalid item reference!\n");
+                    }
+                    return item;
+                }
+                catch (Exception e) {
+                    System.out.println("Invalid input!\n");
+                }
+            }
         }
-        else {
-            return false;
-        }
+        return null;
     }
 
     public String toString() {

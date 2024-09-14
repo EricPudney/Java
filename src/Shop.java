@@ -5,14 +5,14 @@ import src.characters.Hero;
 import src.items.*;
 
 public class Shop {
-    Inventory stock;
+    Inventory inventory;
     int gold;
 
     static Console c = System.console();
 
     public Shop(int gold) {
         this.gold = gold;
-        stock = generateStock();
+        inventory = generateStock();
     }
 
     public void shopVisit(Hero player) {
@@ -43,72 +43,42 @@ public class Shop {
     }
 
     public void buyGoods(Hero player) {
-        boolean finished = false;
-        while (!finished) {
-            System.out.println(this.stock);
-            String input = c.readLine("Enter the number of the item you wish to buy or x to exit.\n");
-            if (input.equals("x")) {
-                finished = true;
+        Item itemBought = this.inventory.selectFromInventory("buy");
+        if (itemBought == null) {
+            return;
+        }
+        if (player.gold >= itemBought.value) {
+            if (this.inventory.items.remove(itemBought)) {
+                System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
+                player.gold -= itemBought.value;
+                player.inventory.items.add(itemBought);
             }
             else {
-                try {
-                    int itemIndex = Integer.parseInt(input) - 1;
-                    Item itemBought = this.stock.items.get(itemIndex);
-                        if (itemBought != null && player.gold >= itemBought.value) {
-                            if (player.inventory.addToInventory(itemBought, player)) {
-                                if (this.stock.removeFromInventory(itemIndex)) {
-                                    System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
-                                    player.gold -= itemBought.value;
-                                }
-                                else {System.out.println("Something went wrong - unable to purchase item.");
-                            }
-                            }
-                            else if (player.gold < itemBought.value) {
-                                System.out.println("You can't afford that!");
-                            }
-                        }
-                        else {
-                            System.out.println("Invalid item reference!\n");
-                        }
-                }
-                catch (Exception e) {
-                    System.out.println("Invalid input!\n");
-                }
+                System.out.println("Something went wrong - unable to purchase item.");
             }
+        }
+        else {
+            System.out.println("You can't afford that!");
         }
     }
     
     public void sellGoods(Hero player) {
-        boolean finished = false;
-        while (!finished) {
-            System.out.println(player.inventory);
-            String input = c.readLine("The shopkeeper has %d gold. Enter the number of the item you wish to sell or x to exit.\n", this.gold);
-            if (input.equals("x")) {
-                finished = true;
+        Item itemSold = player.inventory.selectFromInventory("sell");
+        if (itemSold == null) {
+            return;
+        }
+        if (this.gold >= itemSold.value) {
+            if (player.inventory.items.remove(itemSold)) {
+                System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
+                player.gold += itemSold.value;
+                this.inventory.items.add(itemSold);
             }
             else {
-                try {
-                    int itemIndex = Integer.parseInt(input) - 1;
-                    if (player.inventory.items.get(itemIndex) != null) {
-                        Item itemSold = player.inventory.items.get(itemIndex);
-                        if (this.gold >= itemSold.value) {
-                            player.gold += itemSold.value;
-                            this.gold -= itemSold.value;
-                            player.inventory.items.remove(itemSold);
-                            System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
-                        }
-                        else {
-                            System.out.printf("The shopkeeper only has %d gold and can't afford your %s!\n", this.gold, itemSold.name);
-                        }
-                    }
-                    else {
-                        System.out.println("Invalid item reference!\n");
-                    }
-                }
-                catch (Exception e) {
-                    System.out.println("Invalid input!\n");
-                }
+                System.out.println("Something went wrong - unable to sell item.");
             }
+        }
+        else {
+            System.out.println("The shopkeeper can't afford that!");
         }
     }
 
