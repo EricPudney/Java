@@ -74,7 +74,13 @@ public class Hero extends Character {
                     System.out.println(this);
                 }
                 else if (newMove.equals("i")) {
-                    System.out.println(this.inventory);
+                    Item droppedItem = this.inventory.selectFromInventory("drop");
+                    if (droppedItem != null) {
+                        if (this.inventory.removeFromInventory(droppedItem, this)) {
+                            System.out.printf("You dropped the %s.\n", droppedItem.name);
+                            dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = droppedItem;
+                        }
+                    }
                 }
                 else if (newMove.equals("t")) {
                     Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
@@ -141,7 +147,7 @@ public class Hero extends Character {
         return returnValue;
     }
 
-    public void encounter(Minion enemy, Dungeon dungeon) {
+    public void encounter(Minion enemy, Dungeon dungeon /* 2nd param only needed for the shoddy solution below; see comment */) {
         System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
