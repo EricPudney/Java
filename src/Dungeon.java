@@ -32,7 +32,7 @@ public class Dungeon {
         this.descriptions = new String[width][height];
         this.items = new Item[width][height];
 
-        // fills the dungeon with a suitable number of items and onsters
+        // fills the dungeon with a suitable number of items and monsters
         double size = Math.sqrt(width * height);
         while (size > 0) {
             int x = rng.nextInt(width);
@@ -55,7 +55,7 @@ public class Dungeon {
             };
         }
 
-        // places the treasure hoard somewhere in the dungeon
+        // places the treasure somewhere in the dungeon
         boolean treasure = false;
         while (treasure == false) {
             int x = rng.nextInt(width);
@@ -80,7 +80,7 @@ public class Dungeon {
         int x = player.currentLocation[0];
         int y = player.currentLocation[1];
         if (Main.firstTurn) {
-            Hero.printHelpText();
+            Main.printHelpText();
             if (this.monsters[x][y] != null) {
                 return String.format("You stand at the entrance of a dark and gloomy dungeon. You can go north, east, and west. You have encountered a monster (already)! A %s stands before you, blocking the way.", monsters[x][y].name);
             }
@@ -103,6 +103,15 @@ public class Dungeon {
         if (y == this.height - 1) {
             returnValue = returnValue.concat("There is no way west. ");
         }
+        if (this.monsters[x][y] != null && !this.monsters[x][y].isAlive) {
+            String msg = String.format("There is a dead %s here. ", monsters[x][y].name);
+            returnValue = returnValue.concat(msg);
+        }
+        if (this.items[x][y] != null) {
+            Item item = this.items[x][y];
+            String msg = String.format("You have found an item! There is a %s here. ", item.name);
+            returnValue = returnValue.concat(msg);
+        }
         switch (this.grid[x][y]) {    
             case 'T':
             returnValue = returnValue.concat("You have discovered the treasure! ");
@@ -117,15 +126,6 @@ public class Dungeon {
             returnValue = returnValue.concat("This is a new part of the dungeon. ");
             this.grid[x][y] = 'E';
             break;
-        }
-        if (this.monsters[x][y] != null && !this.monsters[x][y].isAlive) {
-            String msg = String.format("There is a dead %s here.", monsters[x][y].name);
-            returnValue = returnValue.concat(msg);
-        }
-        if (this.items[x][y] != null) {
-            Item item = this.items[x][y];
-            String msg = String.format("You have found an item! There is a %s here. ", item.name);
-            returnValue = returnValue.concat(msg);
         }
         return returnValue;
         

@@ -2,8 +2,12 @@ package src.characters;
 import java.io.Console;
 import java.io.IOException;
 
+import src.Decision;
+import src.Decision.Actions;
+import src.Decision.Commands;
 import src.Dungeon;
 import src.Inventory;
+import src.Main;
 import src.items.Item;
 
 public class Hero extends Character {
@@ -49,96 +53,99 @@ public class Hero extends Character {
         }
         System.out.printf("%s levelled up and is now level %d!\n", this.name, this.level);
     }
-
-    public static void printHelpText() {
-        System.out.println("HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, i to see your inventory, and p for your position in the dungeon. If you find an item you can press t to add it to your inventory.");
-    }
-
-    public void command(Dungeon dungeon) throws Exception {
-        boolean noError = false;
-        Moves move = null;
-        while (!noError && this.isAlive) {
-        String newMove = c.readLine("What do you want to do?");
-            try {
-                move = Moves.valueOf(newMove);
-                noError = true;
-            }
-            catch (Exception e) {
-                if (newMove.equals("p")) {
-                    System.out.println(dungeon);
-                }
-                else if (newMove.equals("h")) {
-                    printHelpText();
-                }
-                else if (newMove.equals("c")) {
-                    System.out.println(this);
-                }
-                else if (newMove.equals("i")) {
-                    Item droppedItem = this.inventory.selectFromInventory("drop");
-                    if (droppedItem != null) {
-                        if (this.inventory.removeFromInventory(droppedItem, this)) {
-                            System.out.printf("You dropped the %s.\n", droppedItem.name);
-                            dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = droppedItem;
-                        }
-                    }
-                }
-                else if (newMove.equals("t")) {
-                    Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
-                    if (item == null) {
-                        System.out.println("There is nothing here to take!");
-                    }
-                    if (item != null && this.inventory.addToInventory(item, this)) {
-                        dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = null;
-                        System.out.printf("You added the %s to your inventory.\n", item.name);
-                    };
-                }
-                else{
-                    System.out.println(newMove + " is not a valid choice. Please try again.");
-                }
-            }
-        }
-        changeLocation(move, dungeon);
-    }
-
     
-    public void changeLocation(Moves command, Dungeon dungeon) throws Exception {
-        switch(command) {
-            case n:
-                if (this.currentLocation[0] <= dungeon.width - 2) {
-                    this.currentLocation[0] = this.currentLocation[0] += 1;
-                    System.out.println("You move through the gloomy dungeon...");
-                }
-                else {
-                    throw new Exception("You can't go that way!");
-                }
+    public void command (Dungeon dungeon) throws Exception {
+        Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t};
+        Actions action = Decision.makeDecision("What do you want to do?", commands);
+        switch (action) {
+            case Actions.take:
+                takeitem(dungeon);
                 break;
-            case e:
-                if (this.currentLocation[1] > 0) {
-                    this.currentLocation[1] = this.currentLocation[1] -= 1;
-                    System.out.println("You move through the gloomy dungeon...");
-                }
-                else {
-                    throw new Exception("You can't go that way!");
-                }
+            case Actions.inventory:
+                viewInventory(dungeon);
                 break;
-            case w:
-                if (this.currentLocation[1] <= dungeon.height - 2) {
-                    this.currentLocation[1] = this.currentLocation[1] += 1;
-                    System.out.println("You move through the gloomy dungeon...");
-                }
-                else {
-                    throw new Exception("You can't go that way!");
-                }
+            case Actions.help:
+                Main.printHelpText();
                 break;
-            case s:
-                if (this.currentLocation[0] > 0) {
-                    this.currentLocation[0] = this.currentLocation[0] -= 1;
-                    System.out.println("You move through the gloomy dungeon...");
-                }
-                else {
-                    throw new Exception("You can't go that way!");
-                }
+            case Actions.characterInfo:
+                System.out.println(this.toString());
                 break;
+
+            case Actions.north:
+                moveNorth(dungeon);
+                break;
+            case Actions.east:
+                moveEast(dungeon);
+                break;
+            case Actions.south:
+                moveSouth(dungeon);
+                break;
+            case Actions.west:
+                moveWest(dungeon);
+                break;
+            default:
+                System.out.println("Something has gone wrong with the command method.");
+        }
+    }
+
+    public void takeitem(Dungeon dungeon) {
+        Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
+                if (item == null) {
+                    System.out.println("There is nothing here to take!");
+                }
+                if (item != null && this.inventory.addToInventory(item, this)) {
+                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = null;
+                    System.out.printf("You added the %s to your inventory.\n", item.name);
+                };
+    }
+
+    public void viewInventory(Dungeon dungeon) {
+        Item droppedItem = this.inventory.selectFromInventory("drop");
+                if (droppedItem != null) {
+                if (this.inventory.removeFromInventory(droppedItem, this)) {
+                    System.out.printf("You dropped the %s.\n", droppedItem.name);
+                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = droppedItem;
+                    }
+                }
+    }
+
+    public void moveNorth(Dungeon dungeon) throws Exception {
+        if (this.currentLocation[0] <= dungeon.width - 2) {
+            this.currentLocation[0] = this.currentLocation[0] += 1;
+            System.out.println("You move through the gloomy dungeon...");
+        }
+        else {
+            throw new Exception();
+        }
+    }
+    
+    public void moveEast(Dungeon dungeon) throws Exception {
+        if (this.currentLocation[1] > 0) {
+            this.currentLocation[1] = this.currentLocation[1] -= 1;
+            System.out.println("You move through the gloomy dungeon...");
+        }
+        else {
+            throw new Exception();
+        }
+    }
+
+    public void moveWest(Dungeon dungeon) throws Exception {
+        if (this.currentLocation[1] <= dungeon.height - 2) {
+            this.currentLocation[1] = this.currentLocation[1] += 1;
+            System.out.println("You move through the gloomy dungeon...");
+        }
+        else {
+            throw new Exception();
+        }
+    }
+
+    public void moveSouth(Dungeon dungeon) throws Exception {
+        if (this.currentLocation[0] > 0) {
+            this.currentLocation[0] = this.currentLocation[0] -= 1;
+            System.out.println("You move through the gloomy dungeon...");
+        }
+        else {
+            throw new Exception();
         }
     }
     
@@ -151,35 +158,41 @@ public class Hero extends Character {
         System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
-        String decision = c.readLine("Press a to attack or x to try to escape.\n");
-            if (decision.equals("i")) {
-                System.out.println(this.toString());
-            }
-            else if (decision.equals("a")) {
-                this.attack(enemy);
-                if (enemy.isAlive) {
-                    enemy.attack(this);
-                }
-                if (!enemy.isAlive) {
-                    this.addXp(5);
-                }
-            }
-            else if (decision.equals("x")) {
-                double rng = Math.random();
-                if (this.evasion > rng) {
-                    evaded = true;
-                    // not a great solution, it would be better to leave the monsters array as protected, but can't think of a better way to do this.
-                    dungeon.monsters[enemy.currentLocation[0]][enemy.currentLocation[1]] = null;
-                    this.addXp(2);
-                    System.out.println("You have successfully evaded the monster.");
-                }
-                else {
-                    System.out.printf("You failed to evade the %s!\n", enemy.name);
-                    enemy.attack(this);
-                }
-            }
-            else {
-                System.out.println(decision + " is not a valid choice. Please try again.");
+            Commands[] commands = {Commands.c, Commands.h, Commands.x, Commands.a};
+            Actions action = Decision.makeDecision("What do you want to do? Press a to attack or x to try to escape.", commands);
+            switch (action) {
+                case Actions.characterInfo:
+                    System.out.println(this.toString());
+                    break;
+                case Actions.help:
+                    Main.printHelpText();
+                    break;
+                case Actions.evade:
+                    double rng = Math.random();
+                    if (this.evasion > rng) {
+                        evaded = true;
+                        // not a great solution, it would be better to leave the monsters array as protected, but can't think of a better way to do this.
+                        dungeon.monsters[enemy.currentLocation[0]][enemy.currentLocation[1]] = null;
+                        this.addXp(2);
+                        System.out.println("You have successfully evaded the monster.");
+                    }
+                    else {
+                        System.out.printf("You failed to evade the %s!\n", enemy.name);
+                        enemy.attack(this);
+                    }
+                    break;
+                case Actions.attack:
+                    this.attack(enemy);
+                    if (enemy.isAlive) {
+                        enemy.attack(this);
+                    }
+                    if (!enemy.isAlive) {
+                        this.addXp(5);
+                    }
+                    break;
+                default:
+                    System.out.println("Something has gone wrong with the encounter method");
+                    break;
             }
         }
     }
@@ -226,7 +239,7 @@ public class Hero extends Character {
 
         int attack = 3;
         int health = 8;
-        double evasion = 0.5;
+        double evasion = 0.45;
         switch (type) {
             case warrior:
                 evasion = 0.4;
@@ -237,18 +250,18 @@ public class Hero extends Character {
                 break;
             case ranger:
                 attack = 2;
-                evasion = 0.6;
+                evasion = 0.5;
                 break;
         }
         switch (race) {
             case human:
                 break;
             case elf:
-                evasion = evasion += 0.1;
+                evasion = evasion += 0.05;
                 health = health - 2;
                 break;
             case dwarf:
-                evasion = evasion -= 0.1;
+                evasion = evasion -= 0.05;
                 health = health + 1;
                 break;
         }

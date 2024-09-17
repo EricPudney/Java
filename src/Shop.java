@@ -49,13 +49,9 @@ public class Shop {
             return;
         }
         if (player.gold >= itemBought.value) {
-            if (this.inventory.items.remove(itemBought)) {
+            if (player.inventory.addToInventory(itemBought, player) && this.inventory.items.remove(itemBought)) {
                 System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
                 player.gold -= itemBought.value;
-                player.inventory.items.add(itemBought);
-            }
-            else {
-                System.out.println("Something went wrong - unable to purchase item.");
             }
         }
         else {

@@ -5,6 +5,10 @@ public class Main {
     
     public static boolean firstTurn = true;
 
+    public static void printHelpText() {
+        System.out.println("HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, i to see or drop an item from your inventory. If you find an item you can press t to add it to your inventory.");
+    }
+
     public static void main(String[] args) throws Exception {
         // Victory counter, initiate character creation
         int successfulRuns = 0;
@@ -43,17 +47,16 @@ public class Main {
                     }
                 }
                 // handles player movement
-                if (!player.foundTreasure) {
+                if (!player.foundTreasure && player.isAlive) {
                     try {
                     player.command(dungeon);
                     }
-                // handles invalid commands
+                // handles invalid directional commands
                     catch (Exception e) {
-                        if (e.getMessage().equals("You can't go that way!")) {
-                            System.out.println(e.getMessage());
-                            skipDescription = true;
-                        }
-                }}
+                        System.out.println("You can't go that way!");
+                        skipDescription = true;
+                    }
+                }
             }
             // Victory and loss messages
             if (!player.isAlive) {
