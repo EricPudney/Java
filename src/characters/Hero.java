@@ -58,29 +58,29 @@ public class Hero extends Character {
         Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t};
         Actions action = Decision.makeDecision("What do you want to do?", commands);
         switch (action) {
-            case Actions.take:
+            case take:
                 takeitem(dungeon);
                 break;
-            case Actions.inventory:
+            case inventory:
                 viewInventory(dungeon);
                 break;
-            case Actions.help:
+            case help:
                 Main.printHelpText();
                 break;
-            case Actions.characterInfo:
+            case characterInfo:
                 System.out.println(this.toString());
                 break;
 
-            case Actions.north:
+            case north:
                 moveNorth(dungeon);
                 break;
-            case Actions.east:
+            case east:
                 moveEast(dungeon);
                 break;
-            case Actions.south:
+            case south:
                 moveSouth(dungeon);
                 break;
-            case Actions.west:
+            case west:
                 moveWest(dungeon);
                 break;
             default:
@@ -161,13 +161,13 @@ public class Hero extends Character {
             Commands[] commands = {Commands.c, Commands.h, Commands.x, Commands.a};
             Actions action = Decision.makeDecision("What do you want to do? Press a to attack or x to try to escape.", commands);
             switch (action) {
-                case Actions.characterInfo:
+                case characterInfo:
                     System.out.println(this.toString());
                     break;
-                case Actions.help:
+                case help:
                     Main.printHelpText();
                     break;
-                case Actions.evade:
+                case evade:
                     double rng = Math.random();
                     if (this.evasion > rng) {
                         evaded = true;
@@ -181,7 +181,7 @@ public class Hero extends Character {
                         enemy.attack(this);
                     }
                     break;
-                case Actions.attack:
+                case attack:
                     this.attack(enemy);
                     if (enemy.isAlive) {
                         enemy.attack(this);
