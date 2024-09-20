@@ -79,13 +79,6 @@ public class Dungeon {
     public String describeLocation(Hero player) {
         int x = player.currentLocation[0];
         int y = player.currentLocation[1];
-        if (Main.firstTurn) {
-            Main.printHelpText();
-            if (this.monsters[x][y] != null) {
-                return String.format("You stand at the entrance of a dark and gloomy dungeon. You can go north, east, and west. You have encountered a monster (already)! A %s stands before you, blocking the way.", monsters[x][y].name);
-            }
-            return "You stand at the entrance of a dark and gloomy dungeon. You can go north, east, and west.";
-        }
         if (this.monsters[x][y] != null && this.monsters[x][y].isAlive) {
             String msg = String.format("You have encountered a monster! A %s stands before you, blocking the way.", monsters[x][y].name);
             return msg;

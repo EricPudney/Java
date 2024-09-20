@@ -2,7 +2,6 @@ package src.items;
 
 import src.characters.Hero;
 
-
 public class HealthBuffItem extends Item implements MagicItem {
     double buff;
 

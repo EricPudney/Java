@@ -1,6 +1,5 @@
 package src.characters;
 
-
 public class Character {
     public int attack;
     public int maxHealth;

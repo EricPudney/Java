@@ -15,13 +15,15 @@ public class Main {
         Hero player = Hero.CharacterCreation();
         // initiate dungeon loop
         while (player.isAlive) {
+            if (firstTurn) {
+                printHelpText();
+                System.out.println("You enter the dungeon...");
+            }
             // create a small dungeon, set initial position in dungeon
             Dungeon dungeon = new Dungeon(5 + (successfulRuns * 2), 5  + (successfulRuns * 2));
             player.currentLocation[0] = 0;
             player.currentLocation[1] =  Math.round(dungeon.width/2);
     
-            // marks initial location as explored
-            dungeon.grid[0][player.currentLocation[1]] = 'E';
             // needed to skip redescription of location when an invalid command is entered
             boolean skipDescription = false;
     

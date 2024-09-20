@@ -265,8 +265,7 @@ public class Hero extends Character {
                 health = health + 1;
                 break;
         }
-        Hero PC = new Hero(attack, health, evasion, type, race, weapon, name);
-        return PC;
+        return new Hero(attack, health, evasion, type, race, weapon, name);
     }
 }
 
@@ -275,6 +274,7 @@ enum Race {
     dwarf,
     elf
 }
+
 enum Weapon {
     sword, 
     staff,
@@ -285,11 +285,4 @@ enum Type {
     warrior, 
     ranger,
     mage
-}
-
-enum Moves {
-    n,
-    e,
-    w,
-    s
 }
