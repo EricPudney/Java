@@ -2,7 +2,7 @@ package src;
 
 import java.io.Console;
 
-public class Decision {
+public abstract class Decision {
     
     static Console c = System.console();
 

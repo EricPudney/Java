@@ -1,8 +1,6 @@
 package src;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Random;
-
 import src.characters.Hero;
 import src.characters.Minion;
 import src.items.Item;
@@ -23,8 +21,6 @@ public class Dungeon {
     "An eerie whistling in the air turns your blood cold. ", 
     "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
     
-    private static Random rng = new Random();
-
     @SuppressWarnings("unchecked")
     public Dungeon(int width, int height){
         this.width = width;
@@ -43,14 +39,14 @@ public class Dungeon {
         // fills the dungeon with a suitable number of items and monsters
         double size = Math.sqrt(width * height);
         while (size > 0) {
-            int x = rng.nextInt(width);
-            int y = rng.nextInt(height);
+            int x = Main.rng.nextInt(width);
+            int y = Main.rng.nextInt(height);
             if (monsters[x][y] == null) {
                 monsters[x][y] = Minion.generateMonster(x, y);
                 size -= 0.5;
             };
-            x = rng.nextInt(width);
-            y = rng.nextInt(height);
+            x = Main.rng.nextInt(width);
+            y = Main.rng.nextInt(height);
             if (items[x][y].size() == 0) {
                 double rng = Math.random();
                 if (rng <= 0.8) {
@@ -66,8 +62,8 @@ public class Dungeon {
         // places the treasure somewhere in the dungeon
         boolean treasure = false;
         while (treasure == false) {
-            int x = rng.nextInt(width);
-            int y = rng.nextInt(height);
+            int x = Main.rng.nextInt(width);
+            int y = Main.rng.nextInt(height);
             if (grid[x][y] == '\u0000') {
                 grid[x][y] = 'T';
                 treasure = true;
@@ -77,7 +73,7 @@ public class Dungeon {
         // assigns each location in the dungeon a short descriptive text
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                int descriptionIndex = rng.nextInt(locations.length - 1);
+                int descriptionIndex = Main.rng.nextInt(locations.length - 1);
                 String randomDescription = locations[descriptionIndex];
                 descriptions[i][j] = randomDescription;
             }
