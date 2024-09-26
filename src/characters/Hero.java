@@ -55,7 +55,7 @@ public class Hero extends Character {
     }
     
     public void command (Dungeon dungeon) throws Exception {
-        Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t};
+        Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t, Commands.m};
         Actions action = Decision.makeDecision("What do you want to do?", commands);
         switch (action) {
             case take:
@@ -66,6 +66,9 @@ public class Hero extends Character {
                 break;
             case help:
                 Main.printHelpText();
+                break;
+            case map:
+                System.out.println(dungeon.toString(this));
                 break;
             case characterInfo:
                 System.out.println(this.toString());

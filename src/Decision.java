@@ -42,6 +42,8 @@ public abstract class Decision {
                 return Actions.east;
             case h:
                 return Actions.help;
+            case m:
+                return Actions.map;
             case i:
                 return Actions.inventory;
             case n:
@@ -82,6 +84,7 @@ public abstract class Decision {
         c,
         i,
         h,
+        m,
         t,
         a,
         x
@@ -97,6 +100,7 @@ public abstract class Decision {
         north,
         south,
         help,
+        map,
         inventory
     }
 }

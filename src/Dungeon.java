@@ -1,5 +1,4 @@
 package src;
-import java.util.Arrays;
 import java.util.ArrayList;
 import src.characters.Hero;
 import src.characters.Minion;
@@ -35,20 +34,24 @@ public class Dungeon {
             }
         }
 
+        // places the treasure somewhere in the dungeon
+        int x = Main.rng.nextInt(width);
+        int y = Main.rng.nextInt(height);
+        grid[x][y] = 'T';
 
         // fills the dungeon with a suitable number of items and monsters
         double size = Math.sqrt(width * height);
         while (size > 0) {
-            int x = Main.rng.nextInt(width);
-            int y = Main.rng.nextInt(height);
+            x = Main.rng.nextInt(width);
+            y = Main.rng.nextInt(height);
             if (monsters[x][y] == null) {
                 monsters[x][y] = Minion.generateMonster(x, y);
                 size -= 0.5;
             };
             x = Main.rng.nextInt(width);
             y = Main.rng.nextInt(height);
-            if (items[x][y].size() == 0) {
-                double rng = Math.random();
+            double rng = Math.random();
+            if (grid[x][y] != 'T') {
                 if (rng <= 0.8) {
                     items[x][y].add(Item.generateItem());
                 }
@@ -56,18 +59,7 @@ public class Dungeon {
                     items[x][y].add(Item.generateMagicItem());
                 }
                 size -= 0.5;
-            };
-        }
-
-        // places the treasure somewhere in the dungeon
-        boolean treasure = false;
-        while (treasure == false) {
-            int x = Main.rng.nextInt(width);
-            int y = Main.rng.nextInt(height);
-            if (grid[x][y] == '\u0000') {
-                grid[x][y] = 'T';
-                treasure = true;
-            };
+            }
         }
 
         // assigns each location in the dungeon a short descriptive text
@@ -134,10 +126,23 @@ public class Dungeon {
         return returnValue;
     }
 
-    public String toString() {
-        String description = "Dungeon: \n";
-        for (char[] row : this.grid) {
-            description = description.concat(Arrays.toString(row)).concat("\n");
+    public String toString(Hero player) {
+        String description = "Dungeon: \n\n Key: \n X marks your current position\n - indicates an unexplored region\n [ ] indicates a previously explored room in the dungeon.";
+         
+        for (int i = this.width - 1; i >= 0; i--) {
+            description = description.concat("\n | ");
+            for (int j = this.height - 1; j >= 0; j--) {
+                if (player.currentLocation[0] == i && player.currentLocation[1] == j) {
+                       description = description.concat(" X ");
+                   }
+                else if (this.grid[i][j] == 'E') {
+                    description = description.concat("[ ]");
+                }
+                else {
+                    description = description.concat(" - ");
+                }
+                description = description.concat(" | ");
+            }
         }
         return description;
     }
