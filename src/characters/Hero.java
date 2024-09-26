@@ -89,12 +89,12 @@ public class Hero extends Character {
     }
 
     public void takeitem(Dungeon dungeon) {
-        Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
+        Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]].get(0);
                 if (item == null) {
                     System.out.println("There is nothing here to take!");
                 }
                 if (item != null && this.inventory.addToInventory(item, this)) {
-                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = null;
+                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]].remove(0);
                     System.out.printf("You added the %s to your inventory.\n", item.name);
                 };
     }
@@ -104,7 +104,7 @@ public class Hero extends Character {
                 if (droppedItem != null) {
                 if (this.inventory.removeFromInventory(droppedItem, this)) {
                     System.out.printf("You dropped the %s.\n", droppedItem.name);
-                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]] = droppedItem;
+                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]].add(droppedItem);
                     }
                 }
     }

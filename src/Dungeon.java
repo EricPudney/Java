@@ -1,5 +1,6 @@
 package src;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Random;
 
 import src.characters.Hero;
@@ -12,7 +13,7 @@ public class Dungeon {
     char[][] grid;
     public Minion[][] monsters;
     String[][] descriptions;
-    public Item[][] items;
+    public ArrayList<Item>[][] items;
     String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 
     "By pale candlelight you make out the oblong shape of the dank and musty room. ", 
     "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", 
@@ -24,13 +25,20 @@ public class Dungeon {
     
     private static Random rng = new Random();
 
+    @SuppressWarnings("unchecked")
     public Dungeon(int width, int height){
         this.width = width;
         this.height = height;
         this.grid = new char[width][height];
         this.monsters = new Minion[width][height];
         this.descriptions = new String[width][height];
-        this.items = new Item[width][height];
+        this.items = (ArrayList<Item>[][]) new ArrayList[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                items[i][j] = new ArrayList<Item>();
+            }
+        }
+
 
         // fills the dungeon with a suitable number of items and monsters
         double size = Math.sqrt(width * height);
@@ -43,13 +51,13 @@ public class Dungeon {
             };
             x = rng.nextInt(width);
             y = rng.nextInt(height);
-            if (items[x][y] == null) {
+            if (items[x][y].size() == 0) {
                 double rng = Math.random();
                 if (rng <= 0.8) {
-                    items[x][y] = Item.generateItem();
+                    items[x][y].add(Item.generateItem());
                 }
                 else {
-                    items[x][y] = Item.generateMagicItem();
+                    items[x][y].add(Item.generateMagicItem());
                 }
                 size -= 0.5;
             };
@@ -100,9 +108,16 @@ public class Dungeon {
             String msg = String.format("There is a dead %s here. ", monsters[x][y].name);
             returnValue = returnValue.concat(msg);
         }
-        if (this.items[x][y] != null) {
-            Item item = this.items[x][y];
+        if (this.items[x][y].size() == 1) {
+            Item item = this.items[x][y].get(0);
             String msg = String.format("You have found an item! There is a %s here. ", item.name);
+            returnValue = returnValue.concat(msg);
+        }
+        else if(this.items[x][y].size() > 1) {
+            String msg = "You have found multiple items: \n";
+            for (Item item : this.items[x][y]) {
+                msg = msg.concat(item.name + " \n");
+            }
             returnValue = returnValue.concat(msg);
         }
         switch (this.grid[x][y]) {    
@@ -121,7 +136,6 @@ public class Dungeon {
             break;
         }
         return returnValue;
-        
     }
 
     public String toString() {

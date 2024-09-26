@@ -8,7 +8,7 @@ public class HealthBuffItem extends Item implements MagicItem {
     static String[][] healthItemList = {
         {"Enchanted armour", "A suit of light armour that boosts your health!"},
         {"Talisman of protection", "A protective charm worn around the neck!"},
-        {"Ring of resistance", "This ring helps you block enemy attacks!"}
+        {"Ring of resilience", "This ring helps you block enemy attacks!"}
     };
     
     public HealthBuffItem(){
