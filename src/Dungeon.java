@@ -104,7 +104,7 @@ public class Dungeon {
         else if(this.items[x][y].size() > 1) {
             String msg = "You have found multiple items: \n";
             for (Item item : this.items[x][y]) {
-                msg = msg.concat(item.name + " \n");
+                msg = msg.concat("  " + item.name + " \n");
             }
             returnValue = returnValue.concat(msg);
         }
@@ -127,7 +127,7 @@ public class Dungeon {
     }
 
     public String toString(Hero player) {
-        String description = "Dungeon: \n\n Key: \n X marks your current position\n - indicates an unexplored region\n [ ] indicates a previously explored room in the dungeon.";
+        String description = "Dungeon: \n\n Key: \n X marks your current position\n - indicates an unexplored region\n [ ] indicates a previously explored room in the dungeon\n i indicates an explored location with an item in it";
          
         for (int i = this.width - 1; i >= 0; i--) {
             description = description.concat("\n | ");
@@ -135,8 +135,11 @@ public class Dungeon {
                 if (player.currentLocation[0] == i && player.currentLocation[1] == j) {
                        description = description.concat(" X ");
                    }
-                else if (this.grid[i][j] == 'E') {
+                else if (this.grid[i][j] == 'E' && this.items[i][j].size() == 0) {
                     description = description.concat("[ ]");
+                }
+                else if (this.grid[i][j] == 'E' && this.items[i][j].size() > 0) {
+                    description = description.concat(" i ");
                 }
                 else {
                     description = description.concat(" - ");

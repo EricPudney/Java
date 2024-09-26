@@ -82,7 +82,7 @@ public class Inventory {
         int i = 1;
         for (Item item : this.items) {
             if (item != null) {
-                String listItem = String.format("%d. %s: %s\n", i, item.name, item.description);
+                String listItem = String.format("%d. %s: %s    value: %d\n", i, item.name, item.description, item.value);
                 returnValue = returnValue.concat(listItem);
                 i++;
             }
