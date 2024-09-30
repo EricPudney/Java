@@ -103,6 +103,10 @@ public class Hero extends Character {
     }
 
     public void viewInventory(Dungeon dungeon) {
+        if (this.inventory.items.size() == 0) {
+            System.out.println(this.inventory);
+            return;
+        }
         Item droppedItem = this.inventory.selectFromInventory("drop");
                 if (droppedItem != null) {
                 if (this.inventory.removeFromInventory(droppedItem, this)) {

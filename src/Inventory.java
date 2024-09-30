@@ -78,7 +78,7 @@ public class Inventory {
     }
 
     public String toString() {
-        String returnValue = "The inventory contains: \n";
+        String returnValue = "";
         int i = 1;
         for (Item item : this.items) {
             if (item != null) {
@@ -87,8 +87,8 @@ public class Inventory {
                 i++;
             }
         }
-        if (returnValue.compareTo("The inventory contains: \n") == 0) {
-            returnValue = returnValue.concat("Nothing at all!");
+        if (items.size() == 0) {
+            returnValue = ("The inventory is empty!");
         }
         return returnValue;
     }
