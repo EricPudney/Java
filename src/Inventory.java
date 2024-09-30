@@ -55,15 +55,14 @@ public class Inventory extends ArrayList<Item> {
     }
 
     public Item selectFromInventory(String purpose) {
-        boolean finished = false;
-        while (!finished) {
+        while (true) {
             System.out.println(this);
             if (this.size() == 0) {
                 return null;
             }
             String input = c.readLine("Enter the number of the item you wish to %s or x to cancel.\n", purpose);
             if (input.equals("x")) {
-                finished = true;
+                return null;
             }
             else {
                 try {
@@ -79,21 +78,18 @@ public class Inventory extends ArrayList<Item> {
                 }
             }
         }
-        return null;
     }
 
     public String toString() {
+        if (this.size() == 0) {
+            return "Inventory is empty!";
+        }
         String returnValue = "";
         int i = 1;
         for (Item item : this) {
-            if (item != null) {
-                String listItem = String.format("%d. %s: %s    value: %d\n", i, item.name, item.description, item.value);
-                returnValue = returnValue.concat(listItem);
-                i++;
-            }
-        }
-        if (this.size() == 0) {
-            returnValue = ("The inventory is empty!");
+            String listItem = String.format("%d. %s: %s    value: %d\n", i, item.name, item.description, item.value);
+            returnValue = returnValue.concat(listItem);
+            i++;
         }
         return returnValue;
     }

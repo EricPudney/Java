@@ -25,9 +25,13 @@ public class Hero extends Character {
 
     static Console c = System.console();
 
-    public Hero(int attack, int health, double evasion, Type type, Race race, Weapon weapon, String name) {
+    public Hero(int attack, int health, int shield, double initiative, double dodge, double block, double evasion, Type type, Race race, Weapon weapon, String name) {
         this.attack = attack;
         this.health = health;
+        this.shield = shield;
+        this.initiative = initiative;
+        this.dodge = dodge;
+        this.block = block;
         this.maxHealth = health;
         this.evasion = evasion;
         this.weapon = weapon;
@@ -264,33 +268,48 @@ public class Hero extends Character {
 
         int attack = 3;
         int health = 8;
+        int shield = 1;
+        double initiative = 0.5;
+        double dodge = 0;
+        double block = 0;
         double evasion = 0.45;
         switch (type) {
             case warrior:
                 evasion = 0.4;
+                block = 0.3;
+                dodge = 0.05;
+                shield = 2;
                 break;
             case mage:
                 attack = 4;
                 health = 5;
+                block = 0.1;
+                dodge = 0.15;
                 break;
             case ranger:
                 attack = 2;
                 evasion = 0.5;
+                block = 0.15;
+                dodge = 0.25;
                 break;
         }
         switch (race) {
             case human:
                 break;
             case elf:
+                initiative = initiative += 0.05;
                 evasion = evasion += 0.05;
+                dodge = dodge += 0.05;
                 health = health - 2;
                 break;
             case dwarf:
+                initiative = initiative -= 0.05;
                 evasion = evasion -= 0.05;
-                health = health + 1;
+                dodge = dodge -= 0.05;
+                health = health + 2;
                 break;
         }
-        return new Hero(attack, health, evasion, type, race, weapon, name);
+        return new Hero(attack, health, shield, initiative, dodge, block, evasion, type, race, weapon, name);
     }
 }
 
