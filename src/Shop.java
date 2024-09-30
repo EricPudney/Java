@@ -81,6 +81,12 @@ public class Shop {
 
     public void doctorVisit(Hero player) {
         boolean decisionMade = false;
+        if (player.health == player.maxHealth) {
+            System.out.println("You are in good health and don't need to visit the doctor!");
+        }
+        else if (player.gold < 10) {
+            System.out.println("You can't afford to visit the doctor!");
+        }
         while (!decisionMade && player.health < player.maxHealth && player.gold > 9 ) {
         String decision = c.readLine("Do you want the doctor to restore your health (costs 10 gold, y/n)?");
             if (decision.equals("y")) {
@@ -95,12 +101,6 @@ public class Shop {
             else {
                 System.out.println("Please enter y or n.");
             }
-        }
-        if (player.health == player.maxHealth) {
-            System.out.println("You are in good health and don't need to visit the doctor!");
-        }
-        else if (player.gold < 10) {
-            System.out.println("You can't afford to visit the doctor!");
         }
     }
 }
