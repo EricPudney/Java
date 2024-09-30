@@ -4,15 +4,15 @@ import java.io.Console;
 import src.characters.Hero;
 import src.items.*;
 
-public class Shop {
-    Inventory inventory;
+public class Shop extends Inventory{
     int gold;
 
     static Console c = System.console();
 
     public Shop(int gold) {
         this.gold = gold;
-        inventory = generateStock();
+        generateStock();
+        // no max size for shop inventory
     }
 
     public void shopVisit(Hero player) {
@@ -34,22 +34,20 @@ public class Shop {
         }
     }
 
-    private Inventory generateStock() {
-        Inventory inventory = new Inventory(8);
-        inventory.add(Item.generateItem());
-        inventory.add(Item.generateMagicItem());
-        // currently hard-coded here; can be altered to allow for larger bags
-        inventory.add(new Bag(5));
-        return inventory;
+    private void generateStock() {
+        this.add(Item.generateItem());
+        this.add(Item.generateMagicItem());
+        // currently hard-coded here; could allow for larger bags?
+        this.add(new Bag(5));
     }
 
     public void buyGoods(Hero player) {
-        Item itemBought = this.inventory.selectFromInventory("buy");
+        Item itemBought = this.selectFromInventory("buy");
         if (itemBought == null) {
             return;
         }
         if (player.gold >= itemBought.value) {
-            if (player.inventory.addToInventory(itemBought, player) && this.inventory.remove(itemBought)) {
+            if (player.inventory.addToInventory(itemBought, player) && this.remove(itemBought)) {
                 System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
                 player.gold -= itemBought.value;
             }
@@ -68,7 +66,7 @@ public class Shop {
             if (player.inventory.removeFromInventory(itemSold, player)) {
                 System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
                 player.gold += itemSold.value;
-                this.inventory.add(itemSold);
+                this.add(itemSold);
             }
             else {
                 System.out.println("Something went wrong - unable to sell item.");

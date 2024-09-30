@@ -29,6 +29,7 @@ public class Main {
             }
             // create a small dungeon, set initial position in dungeon
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
+
             player.currentLocation[0] = 0;
             player.currentLocation[1] =  Math.round(dungeon.width/2);
     
