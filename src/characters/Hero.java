@@ -59,7 +59,7 @@ public class Hero extends Character {
         Actions action = Decision.makeDecision("What do you want to do?", commands);
         switch (action) {
             case take:
-                takeitem(dungeon);
+                takeItem(dungeon);
                 break;
             case inventory:
                 viewInventory(dungeon);
@@ -91,19 +91,37 @@ public class Hero extends Character {
         }
     }
 
-    public void takeitem(Dungeon dungeon) {
-        Item item = dungeon.items[this.currentLocation[0]][this.currentLocation[1]].get(0);
-                if (item == null) {
-                    System.out.println("There is nothing here to take!");
-                }
-                if (item != null && this.inventory.addToInventory(item, this)) {
-                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]].remove(0);
-                    System.out.printf("You added the %s to your inventory.\n", item.name);
-                };
-    }
+    public void takeItem(Dungeon dungeon) {
+        Inventory locationItems = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
+        if (locationItems.size() == 0) {
+            System.out.println("There is nothing here to take!");
+            return;
+        }
+        else if (locationItems.size() == 1) {
+            Item item = locationItems.remove(0);
+            if (this.inventory.addToInventory(item, this)) {
+                System.out.printf("You added the %s to your inventory.\n", item.name);
+            }
+            else {
+                locationItems.add(item);
+            }
+        }
+        else {
+            Item item = locationItems.selectFromInventory("take");
+            if (this.inventory.addToInventory(item, this)) {
+                locationItems.remove(item);
+                System.out.printf("You added the %s to your inventory.\n", item.name);
+            }
+            else {
+                locationItems.add(item);
+            }
+        }
+        }
+                
+                
 
     public void viewInventory(Dungeon dungeon) {
-        if (this.inventory.items.size() == 0) {
+        if (this.inventory.size() == 0) {
             System.out.println(this.inventory);
             return;
         }
