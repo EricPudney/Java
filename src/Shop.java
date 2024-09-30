@@ -36,10 +36,10 @@ public class Shop {
 
     private Inventory generateStock() {
         Inventory inventory = new Inventory(8);
-        inventory.items.add(Item.generateItem());
-        inventory.items.add(Item.generateMagicItem());
+        inventory.add(Item.generateItem());
+        inventory.add(Item.generateMagicItem());
         // currently hard-coded here; can be altered to allow for larger bags
-        inventory.items.add(new Bag(5));
+        inventory.add(new Bag(5));
         return inventory;
     }
 
@@ -49,7 +49,7 @@ public class Shop {
             return;
         }
         if (player.gold >= itemBought.value) {
-            if (player.inventory.addToInventory(itemBought, player) && this.inventory.items.remove(itemBought)) {
+            if (player.inventory.addToInventory(itemBought, player) && this.inventory.remove(itemBought)) {
                 System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
                 player.gold -= itemBought.value;
             }
@@ -68,7 +68,7 @@ public class Shop {
             if (player.inventory.removeFromInventory(itemSold, player)) {
                 System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
                 player.gold += itemSold.value;
-                this.inventory.items.add(itemSold);
+                this.inventory.add(itemSold);
             }
             else {
                 System.out.println("Something went wrong - unable to sell item.");

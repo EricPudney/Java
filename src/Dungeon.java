@@ -1,5 +1,4 @@
 package src;
-import java.util.ArrayList;
 import src.characters.Hero;
 import src.characters.Minion;
 import src.items.Item;
@@ -10,7 +9,7 @@ public class Dungeon {
     char[][] grid;
     public Minion[][] monsters;
     String[][] descriptions;
-    public ArrayList<Item>[][] items;
+    public Inventory[][] items;
     String[] locations = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 
     "By pale candlelight you make out the oblong shape of the dank and musty room. ", 
     "You are in a large chamber, its splendour now entirely faded. Pale gunk drips from the ceiling. ", 
@@ -20,17 +19,16 @@ public class Dungeon {
     "An eerie whistling in the air turns your blood cold. ", 
     "The dungeon seems even darker and gloomier here, and somewhere in the distance you hear an eerie cackling. "};
     
-    @SuppressWarnings("unchecked")
     public Dungeon(int width, int height){
         this.width = width;
         this.height = height;
         this.grid = new char[width][height];
         this.monsters = new Minion[width][height];
         this.descriptions = new String[width][height];
-        this.items = (ArrayList<Item>[][]) new ArrayList[width][height];
+        this.items = (Inventory[][]) new Inventory[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                items[i][j] = new ArrayList<Item>();
+                items[i][j] = new Inventory();
             }
         }
 
@@ -51,6 +49,8 @@ public class Dungeon {
             x = Main.rng.nextInt(width);
             y = Main.rng.nextInt(height);
             double rng = Math.random();
+            
+            // important to use standard add(), NOT the custom addToInventory() method
             if (grid[x][y] != 'T') {
                 if (rng <= 0.8) {
                     items[x][y].add(Item.generateItem());

@@ -6,19 +6,21 @@ import java.util.ArrayList;
 import src.characters.Hero;
 import src.items.*;
 
-public class Inventory {
-    public ArrayList<Item> items;
+public class Inventory extends ArrayList<Item> {
     public int maxSize;
     boolean containsBag = false;
     static Console c = System.console();
 
     public Inventory(int spaces) {
-        this.items = new ArrayList<Item>();
         this.maxSize = spaces;
     }
 
+    public Inventory() {
+        // used for dungeon items only - they have no spaces property
+    }
+
     public boolean addToInventory(Item item, Hero player) {
-        if (items.size() >= maxSize) {
+        if (this.size() >= maxSize) {
             System.out.println("There is no room left in your inventory!");
             return false;
         }
@@ -27,7 +29,7 @@ public class Inventory {
             return false;
         }
         else {
-            items.add(item);
+            this.add(item);
             if (item instanceof MagicItem) {
                 ((MagicItem) item).applyBuff(player);
             }
@@ -40,7 +42,7 @@ public class Inventory {
     }
 
     public boolean removeFromInventory(Item item, Hero player) {
-        if (this.items.remove(item)) {
+        if (this.remove(item)) {
             if (item instanceof MagicItem) {
                 ((MagicItem) item).removeBuff(player);
             }
@@ -53,17 +55,19 @@ public class Inventory {
     }
 
     public Item selectFromInventory(String purpose) {
-        boolean finished = false;
-        while (!finished) {
+        while (true) {
             System.out.println(this);
+            if (this.size() == 0) {
+                return null;
+            }
             String input = c.readLine("Enter the number of the item you wish to %s or x to cancel.\n", purpose);
             if (input.equals("x")) {
-                finished = true;
+                return null;
             }
             else {
                 try {
                     int itemIndex = Integer.parseInt(input) - 1;
-                    Item item = this.items.get(itemIndex);
+                    Item item = this.get(itemIndex);
                     if (item == null) {
                         System.out.println("Invalid item reference!\n");
                     }
@@ -74,21 +78,18 @@ public class Inventory {
                 }
             }
         }
-        return null;
     }
 
     public String toString() {
-        String returnValue = "The inventory contains: \n";
-        int i = 1;
-        for (Item item : this.items) {
-            if (item != null) {
-                String listItem = String.format("%d. %s: %s    value: %d\n", i, item.name, item.description, item.value);
-                returnValue = returnValue.concat(listItem);
-                i++;
-            }
+        if (this.size() == 0) {
+            return "Inventory is empty!";
         }
-        if (returnValue.compareTo("The inventory contains: \n") == 0) {
-            returnValue = returnValue.concat("Nothing at all!");
+        String returnValue = "";
+        int i = 1;
+        for (Item item : this) {
+            String listItem = String.format("%d. %s: %s    value: %d\n", i, item.name, item.description, item.value);
+            returnValue = returnValue.concat(listItem);
+            i++;
         }
         return returnValue;
     }

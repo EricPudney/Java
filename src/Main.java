@@ -10,7 +10,7 @@ public class Main {
     public static boolean firstTurn = true;
 
     public static void printHelpText() {
-        System.out.println("HOW TO PLAY: Use the n, e, w and s keys to indicate which direction you want to move in. You can also press h for help, c for information about your character, and i to see or drop an item from your inventory. If you find an item you can press t to add it to your inventory.");
+        System.out.println("HOW TO PLAY: \nUse the n, e, w and s keys to indicate which direction you want to move in. \nYou can also enter h for help, c for information about your character, m to see a map of the dungeon, and i to see or drop an item from your inventory. \nIf you find an item you can press t to add it to your inventory.\n");
     }
 
     public static int dungeonSize(int runs) {
