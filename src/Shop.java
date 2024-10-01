@@ -85,13 +85,18 @@ public class Shop extends Inventory{
 
     // enhanced for-loop doesn't work but this seems to be OK
     public void sellJunkGoods(Hero player) {
+        int junkItems = 0;
         for (int i = 0; i < player.inventory.size(); i++) {
             Item item = player.inventory.get(i);
             if (item instanceof MagicItem || item instanceof Bag || item instanceof Weapon) {
                 continue;
             }
+            junkItems++;
             sellGoods(player, item);
             i--;
+        }
+        if (junkItems == 0) {
+            System.out.println("You don't have any junk items to sell!\n");
         }
     }
 
