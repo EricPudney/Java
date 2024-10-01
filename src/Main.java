@@ -10,7 +10,7 @@ public class Main {
     public static boolean firstTurn = true;
 
     public static void printHelpText() {
-        System.out.println("HOW TO PLAY: \nUse the n, e, w and s keys to indicate which direction you want to move in. \nYou can also enter h for help, c for information about your character, m to see a map of the dungeon, and i to see or drop an item from your inventory. \nIf you find an item you can press t to add it to your inventory.\n");
+        System.out.println("HOW TO PLAY: \nUse the n, e, w and s keys to indicate which direction you want to move in. \nYou can also enter h to print this help exta again, c for information about your character, m to see a map of the dungeon, and i to see or drop an item from your inventory. \nIf you find an item you can enter t to add it to your inventory.\n");
     }
 
     public static int dungeonSize(int runs) {
@@ -31,7 +31,8 @@ public class Main {
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
 
             player.currentLocation[0] = 0;
-            player.currentLocation[1] =  Math.round(dungeon.width/2);
+            // this should be width rather than height as it appears on the map but it doesn't really matter
+            player.currentLocation[1] =  Math.round(dungeon.height/2);
     
             // needed to skip redescription of location when an invalid command is entered
             boolean skipDescription = false;

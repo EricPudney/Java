@@ -127,7 +127,7 @@ public class Dungeon {
     }
 
     public String toString(Hero player) {
-        String description = "Dungeon: \n\n Key: \n X marks your current position\n - indicates an unexplored region\n [ ] indicates a previously explored room in the dungeon\n i indicates an explored location with an item in it";
+        String description = "Dungeon: \n\n Key: \n X marks your current position\n - indicates an unexplored region\n [ ] indicates a previously explored room in the dungeon\n [i] indicates an explored location with an item in it";
          
         for (int i = this.width - 1; i >= 0; i--) {
             description = description.concat("\n | ");
@@ -139,7 +139,7 @@ public class Dungeon {
                     description = description.concat("[ ]");
                 }
                 else if (this.grid[i][j] == 'E' && this.items[i][j].size() > 0) {
-                    description = description.concat(" i ");
+                    description = description.concat("[i]");
                 }
                 else {
                     description = description.concat(" - ");

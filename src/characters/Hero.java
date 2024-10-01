@@ -12,7 +12,6 @@ import src.items.Item;
 
 public class Hero extends Character {
     public double evasion;
-    Weapon weapon;
     Race race;
     Type type;
     public int[] currentLocation = new int[2];
@@ -25,7 +24,7 @@ public class Hero extends Character {
 
     static Console c = System.console();
 
-    public Hero(int attack, int health, int shield, double initiative, double dodge, double block, double evasion, Type type, Race race, Weapon weapon, String name) {
+    public Hero(int attack, int health, int shield, double initiative, double dodge, double block, double evasion, Type type, Race race, String name) {
         this.attack = attack;
         this.health = health;
         this.shield = shield;
@@ -34,7 +33,6 @@ public class Hero extends Character {
         this.block = block;
         this.maxHealth = health;
         this.evasion = evasion;
-        this.weapon = weapon;
         this.type = type;
         this.race = race;
         this.name = name;
@@ -54,6 +52,9 @@ public class Hero extends Character {
         this.health += 1;
         if (this.level % 5 == 0) {
             this.attack += 1;
+            this.evasion += 0.05;
+            this.block += 0.05;
+            this.dodge += 0.05;
         }
         System.out.printf("%s levelled up and is now level %d!\n", this.name, this.level);
     }
@@ -121,8 +122,6 @@ public class Hero extends Character {
             }
         }
         }
-                
-                
 
     public void viewInventory(Dungeon dungeon) {
         if (this.inventory.size() == 0) {
@@ -229,7 +228,6 @@ public class Hero extends Character {
     public static Hero CharacterCreation() throws IOException {
         Type type = Type.warrior;
         Race race = Race.human;
-        Weapon weapon = Weapon.sword;
         boolean noError = false;
         while (!noError) {
             String typeChosen = c.readLine("Choose your character class (warrior, ranger or mage): ");
@@ -253,16 +251,6 @@ public class Hero extends Character {
             }
         }
         noError = false;
-        while (!noError) {
-            String weaponChosen = c.readLine("Choose your weapon (sword, staff or bow): ");
-            try {
-                weapon = Weapon.valueOf(weaponChosen);
-                noError = true;
-            }
-            catch (Exception e) {
-                System.err.println(weaponChosen + " is not a valid choice. Please try again.");
-            }
-        }
         
         String name = c.readLine("Give your character a name: ");
 
@@ -309,7 +297,7 @@ public class Hero extends Character {
                 health = health + 2;
                 break;
         }
-        return new Hero(attack, health, shield, initiative, dodge, block, evasion, type, race, weapon, name);
+        return new Hero(attack, health, shield, initiative, dodge, block, evasion, type, race, name);
     }
 }
 
@@ -317,12 +305,6 @@ enum Race {
     human,
     dwarf,
     elf
-}
-
-enum Weapon {
-    sword, 
-    staff,
-    bow
 }
 
 enum Type {

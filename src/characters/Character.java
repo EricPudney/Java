@@ -15,7 +15,7 @@ public class Character {
     public int[] currentLocation;
 
     public void attack(Character target) {
-        int damageAdjust = Main.rng.nextInt(-2, 2);
+        int damageAdjust = Main.rng.nextInt(-1, 2);
         int damageReduction = 0;
         double dodgeChance = Main.rng.nextDouble();
         double blockChance = Main.rng.nextDouble();
@@ -24,7 +24,7 @@ public class Character {
             return;
         }
         if (blockChance < target.block) {
-            System.out.printf("%s blocked the attack of %s!\n", target.name, this.name);
+            System.out.printf("%s blocked the attack of %s, reducing its damage by %d!\n", target.name, this.name, target.shield);
             damageReduction += target.shield;
         }
         int damage = this.attack + damageAdjust - damageReduction;
