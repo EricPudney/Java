@@ -13,25 +13,30 @@ public abstract class Decision {
         }
         return false;
     }
-    
-    public static Actions makeDecision(String prompt, Commands[] options) {
-        boolean validCommand = false;
+
+    public static Commands checkInput(String prompt, Commands[] options) {
         String input = "";
-        while (!validCommand) {
+        while (true) {
             input = c.readLine(prompt);
             try {
                 Commands option = Commands.valueOf(input);
-                validCommand = checkLoop(options, option);
+                boolean validCommand = checkLoop(options, option);
                 if ((!validCommand)) {
                     System.out.println("You can't do that here!");    
+                }
+                else {
+                    return option;
                 }
             }
             catch (Exception e) {
                 System.out.println("Please enter a valid command.");
             }
         }
-        
-        switch (Commands.valueOf(input)) {
+    }
+    
+    public static Actions makeDecision(String prompt, Commands[] options) {
+        Commands input = checkInput(prompt, options);
+        switch (input) {
             case a:
                 return Actions.attack;
             case c:
@@ -56,7 +61,23 @@ public abstract class Decision {
                 return Actions.evade;
             default:
                 return null;        
-            }
+        }
+    }
+
+    public static Actions makeShopDecision(String prompt, Commands[] options) {
+        Commands input = checkInput(prompt, options);
+        switch (input) {
+            case a:
+                return Actions.sellAll;
+            case s:
+                return Actions.sell;
+            case b:
+                return Actions.buy;
+            case x:
+                return Actions.exit;
+            default:
+                return null;
+        }
     }
 
     public static boolean makeYesNoDecision(String prompt) {
@@ -87,7 +108,8 @@ public abstract class Decision {
         m,
         t,
         a,
-        x
+        x,
+        b
     }
 
     public enum Actions{
@@ -101,6 +123,10 @@ public abstract class Decision {
         south,
         help,
         map,
-        inventory
+        inventory,
+        sell,
+        buy,
+        sellAll,
+        exit
     }
 }
