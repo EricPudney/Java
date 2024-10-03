@@ -90,9 +90,7 @@ public abstract class Decision {
             else if (input.equals("n")) {
                 return false;
             }
-            {
-                System.out.println("Please enter a valid option.");
-            }
+            System.out.println("Please enter a valid option.");
         }
         return false;
     }
