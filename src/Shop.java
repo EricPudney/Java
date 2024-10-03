@@ -25,7 +25,7 @@ public class Shop extends Inventory{
                 case sell:
                     Item itemSold = player.inventory.selectFromInventory("sell");
                         if (itemSold == null) {
-                        return;
+                        continue;
                         }
                     sellGoods(player, itemSold);
                     break;
@@ -38,7 +38,7 @@ public class Shop extends Inventory{
                 case exit:
                     return;
                 case null, default:
-                    return;
+                    continue;
             }
         }
     }

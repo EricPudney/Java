@@ -39,7 +39,7 @@ public class Main {
     
             // initiates game loop
             while (player.isAlive && !player.foundTreasure) {
-                int[] here = {player.currentLocation[0], player.currentLocation[1]};
+                int[] here = player.currentLocation;
                 if (!skipDescription) {
                     System.out.println(dungeon.describeLocation(player)); 
                 }
