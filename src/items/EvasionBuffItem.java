@@ -2,7 +2,7 @@ package src.items;
 
 import src.characters.Hero;
 
-public class EvasionBuffItem extends Item implements MagicItem {
+public class EvasionBuffItem extends Item implements MagicItem, Equippable {
     double buff;
     
     static String[][] evasionItemList = {
@@ -36,5 +36,17 @@ public class EvasionBuffItem extends Item implements MagicItem {
     
     public void removeBuff(Hero player) {
         player.evasion -= buff;
+    }
+
+    @Override
+    public boolean equip() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'equip'");
+    }
+
+    @Override
+    public boolean unEquip() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
     }
 }

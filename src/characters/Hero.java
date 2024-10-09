@@ -9,6 +9,7 @@ import src.Dungeon;
 import src.Inventory;
 import src.Main;
 import src.items.Item;
+import src.items.MagicItem;
 
 public class Hero extends Character {
     public double evasion;
@@ -21,6 +22,11 @@ public class Hero extends Character {
     public boolean foundTreasure = false;
     public boolean encounter = false;
     public Inventory inventory;
+    // not yet in use
+    private Item equippedWeapon;
+    private Item equippedArmour;
+    private MagicItem equippedMagicItem;
+
 
     static Console c = System.console();
 
@@ -121,7 +127,7 @@ public class Hero extends Character {
                 locationItems.add(item);
             }
         }
-        }
+    }
 
     public void viewInventory(Dungeon dungeon) {
         if (this.inventory.size() == 0) {
@@ -129,7 +135,7 @@ public class Hero extends Character {
             return;
         }
         Item droppedItem = this.inventory.selectFromInventory("drop");
-                if (droppedItem != null) {
+            if (droppedItem != null) {
                 if (this.inventory.removeFromInventory(droppedItem, this)) {
                     System.out.printf("You dropped the %s.\n", droppedItem.name);
                     dungeon.items[this.currentLocation[0]][this.currentLocation[1]].add(droppedItem);
@@ -178,8 +184,7 @@ public class Hero extends Character {
     }
     
     public String toString() {
-        String returnValue = "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
-        return returnValue;
+        return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
     }
 
     public void encounter(Minion enemy, Dungeon dungeon /* 2nd param only needed for the shoddy solution below; see comment */) {

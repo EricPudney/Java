@@ -2,7 +2,7 @@ package src.items;
 
 import src.characters.Hero;
 
-public class HealthBuffItem extends Item implements MagicItem {
+public class HealthBuffItem extends Item implements MagicItem, Equippable {
     double buff;
 
     static String[][] healthItemList = {
@@ -38,5 +38,17 @@ public class HealthBuffItem extends Item implements MagicItem {
     public void removeBuff(Hero player) {
         player.maxHealth -= buff;
         player.health -= buff;
+    }
+
+    @Override
+    public boolean equip() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'equip'");
+    }
+
+    @Override
+    public boolean unEquip() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
     }
 }

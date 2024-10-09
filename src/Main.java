@@ -21,6 +21,7 @@ public class Main {
         // Victory counter, initiate character creation
         int successfulRuns = 0;
         Hero player = Hero.CharacterCreation();
+
         // initiate dungeon loop
         while (player.isAlive) {
             if (firstTurn) {
@@ -43,9 +44,8 @@ public class Main {
                 if (!skipDescription) {
                     System.out.println(dungeon.describeLocation(player)); 
                 }
-                // resets skip description variable to false in case of an earlier invalid command
+                // resets skip description variable to false in case of an earlier invalid command, switches off first turn text
                 skipDescription = false;
-                // unique description for first turn, only appears once
                 firstTurn = false;
                 // ends game loop if loss or victory conditions met
                 if (player.foundTreasure && (dungeon.monsters[here[0]][here[1]] == null || !dungeon.monsters[here[0]][here[1]].isAlive)) {
@@ -74,6 +74,7 @@ public class Main {
             if (!player.isAlive) {
                 System.out.printf("%s was killed in the horrible dungeon!", player.name);
             }
+            // reset everything & increase victory count for a new dungeon
             else if (player.foundTreasure) {
                 successfulRuns += 1;
                 player.foundTreasure = false;
