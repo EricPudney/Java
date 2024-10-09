@@ -103,7 +103,7 @@ public class Hero extends Character {
     }
 
     public void takeItem(Dungeon dungeon) {
-        Inventory locationItems = dungeon.items[this.currentLocation[0]][this.currentLocation[1]];
+        Inventory locationItems = dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].items;
         if (locationItems.size() == 0) {
             System.out.println("There is nothing here to take!");
             return;
@@ -164,7 +164,7 @@ public class Hero extends Character {
             if (droppedItem != null) {
                 if (this.inventory.removeFromInventory(droppedItem, this)) {
                     System.out.printf("You dropped the %s.\n", droppedItem.name);
-                    dungeon.items[this.currentLocation[0]][this.currentLocation[1]].add(droppedItem);
+                    dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].items.add(droppedItem);
                     }
                 }
     }
@@ -231,7 +231,7 @@ public class Hero extends Character {
                     if (this.evasion > rng) {
                         evaded = true;
                         // not a great solution, it would be better to leave the monsters array as protected, but can't think of a better way to do this.
-                        dungeon.monsters[enemy.currentLocation[0]][enemy.currentLocation[1]] = null;
+                        dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].enemy = null;
                         this.addXp(2);
                         System.out.println("You have successfully evaded the monster.");
                     }

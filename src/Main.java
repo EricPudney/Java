@@ -1,6 +1,7 @@
 package src;
 import src.characters.Hero;
 import java.util.Random;
+import java.util.Arrays;
 
 
 public class Main {
@@ -32,8 +33,7 @@ public class Main {
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
 
             player.currentLocation[0] = 0;
-            // this should be width rather than height as it appears on the map but it doesn't really matter
-            player.currentLocation[1] =  Math.round(dungeon.height/2);
+            player.currentLocation[1] =  Math.round(dungeon.width/2);
     
             // needed to skip redescription of location when an invalid command is entered
             boolean skipDescription = false;
@@ -42,20 +42,21 @@ public class Main {
             while (player.isAlive && !player.foundTreasure) {
                 int[] here = player.currentLocation;
                 if (!skipDescription) {
-                    System.out.println(dungeon.describeLocation(player)); 
+                    System.out.println(dungeon.locations[here[0]][here[1]].describeLocation(player));
+                    dungeon.locations[here[0]][here[1]].explored = true;
                 }
                 // resets skip description variable to false in case of an earlier invalid command, switches off first turn text
                 skipDescription = false;
                 firstTurn = false;
                 // ends game loop if loss or victory conditions met
-                if (player.foundTreasure && (dungeon.monsters[here[0]][here[1]] == null || !dungeon.monsters[here[0]][here[1]].isAlive)) {
+                if (player.foundTreasure && (dungeon.locations[here[0]][here[1]].enemy == null || !dungeon.locations[here[0]][here[1]].enemy.isAlive)) {
                     break;
                 }
                 // starts encounter with a monster
-                if (dungeon.monsters[here[0]][here[1]] != null && dungeon.monsters[here[0]][here[1]].isAlive) {
-                    player.encounter(dungeon.monsters[here[0]][here[1]], dungeon);
+                if (dungeon.locations[here[0]][here[1]].enemy != null && dungeon.locations[here[0]][here[1]].enemy.isAlive) {
+                    player.encounter(dungeon.locations[here[0]][here[1]].enemy, dungeon);
                     if (player.isAlive) {
-                        System.out.println(dungeon.describeLocation(player));
+                        System.out.println(dungeon.locations[here[0]][here[1]].describeLocation(player));
                     }
                 }
                 // handles player movement
