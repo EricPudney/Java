@@ -30,6 +30,7 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
         return item;
     }
 
+    // these methods can be replacd by equip() and unequip()?
     public void applyBuff(Hero player) {
         player.maxHealth += buff;
         player.health += buff;

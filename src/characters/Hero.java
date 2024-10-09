@@ -1,6 +1,7 @@
 package src.characters;
 import java.io.Console;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import src.Decision;
 import src.Decision.Actions;
@@ -8,8 +9,8 @@ import src.Decision.Commands;
 import src.Dungeon;
 import src.Inventory;
 import src.Main;
+import src.items.Equippable;
 import src.items.Item;
-import src.items.MagicItem;
 
 public class Hero extends Character {
     public double evasion;
@@ -23,9 +24,8 @@ public class Hero extends Character {
     public boolean encounter = false;
     public Inventory inventory;
     // not yet in use
-    private Item equippedWeapon;
-    private Item equippedArmour;
-    private MagicItem equippedMagicItem;
+    private ArrayList<Equippable> equippedItems;
+    
 
 
     static Console c = System.console();
@@ -126,6 +126,32 @@ public class Hero extends Character {
             else {
                 locationItems.add(item);
             }
+        }
+    }
+
+    public void equipItem() {
+        if (this.inventory.size() == 0) {
+            System.out.println(this.inventory);
+            return;
+        }
+        Item selectedItem = this.inventory.selectFromInventory("equip");
+        if (!(selectedItem instanceof Equippable)) {
+            System.out.println("That item cannot be equipped!");
+            return;
+        }
+        else if (equippedItems.size() >= 5) {
+            System.out.println("You cannot equip any more items!");
+            return;
+        }
+        else {
+            for (Equippable item : equippedItems) {
+                if (item.getClass() == selectedItem.getClass()) {
+                    System.out.printf("You have already equipped a %s!\n", item.getClass().getSimpleName().toLowerCase());
+                    return;
+                }
+            }
+            this.equippedItems.add((Equippable) selectedItem);
+            ((Equippable) selectedItem).equip();
         }
     }
 
