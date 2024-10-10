@@ -8,6 +8,7 @@ import src.Decision.Actions;
 import src.Decision.Commands;
 import src.Dungeon;
 import src.Inventory;
+import src.Location;
 import src.Main;
 import src.items.Equippable;
 import src.items.Item;
@@ -16,7 +17,7 @@ public class Hero extends Character {
     public double evasion;
     Race race;
     Type type;
-    public int[] currentLocation = new int[2];
+    public Location currentLocation;
     public int gold = 0;
     private int xp = 0;
     public int level = 1;
@@ -103,7 +104,7 @@ public class Hero extends Character {
     }
 
     public void takeItem(Dungeon dungeon) {
-        Inventory locationItems = dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].items;
+        Inventory locationItems = currentLocation.items;
         if (locationItems.size() == 0) {
             System.out.println("There is nothing here to take!");
             return;
@@ -164,48 +165,66 @@ public class Hero extends Character {
             if (droppedItem != null) {
                 if (this.inventory.removeFromInventory(droppedItem, this)) {
                     System.out.printf("You dropped the %s.\n", droppedItem.name);
-                    dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].items.add(droppedItem);
+                    currentLocation.items.add(droppedItem);
                     }
                 }
     }
 
-    public void moveNorth(Dungeon dungeon) throws Exception {
-        if (this.currentLocation[0] <= dungeon.width - 2) {
-            this.currentLocation[0] = this.currentLocation[0] += 1;
+    public int[] findCurrentLocation(Dungeon dungeon) {
+        int[] position = {0, 0};
+        for (int i = 0; i < dungeon.locations.length; i++) {
+            for (int j = 0; j < dungeon.locations[i].length; j++) {
+                if (dungeon.locations[i][j] == currentLocation) {
+                    position[0] = i;
+                    position[1] = j;
+                    return position;
+                }
+            }
+        }
+        return position;
+    }
+
+    public void moveNorth(Dungeon dungeon) {
+        if (!currentLocation.noWayNorth) {
+            int[] position = findCurrentLocation(dungeon);
+            currentLocation = dungeon.locations[position[0] - 1][position[1]];
             System.out.println("You move through the gloomy dungeon...");
         }
         else {
-            throw new Exception();
+            System.out.println("You can't go that way!\n");
         }
     }
-    
-    public void moveEast(Dungeon dungeon) throws Exception {
-        if (this.currentLocation[1] > 0) {
-            this.currentLocation[1] = this.currentLocation[1] -= 1;
+     
+    public void moveEast(Dungeon dungeon) {
+        if (!currentLocation.noWayEast) {
+            int[] position = findCurrentLocation(dungeon);
+            currentLocation = dungeon.locations[position[0]][position[1] + 1];
             System.out.println("You move through the gloomy dungeon...");
         }
         else {
-            throw new Exception();
+            System.out.println("You can't go that way!\n");
         }
     }
 
-    public void moveWest(Dungeon dungeon) throws Exception {
-        if (this.currentLocation[1] <= dungeon.height - 2) {
-            this.currentLocation[1] = this.currentLocation[1] += 1;
+    public void moveWest(Dungeon dungeon) {
+        if (!currentLocation.noWayWest) {
+            int[] position = findCurrentLocation(dungeon);
+            currentLocation = dungeon.locations[position[0]][position[1] - 1];
             System.out.println("You move through the gloomy dungeon...");
         }
         else {
-            throw new Exception();
+            System.out.println("You can't go that way!\n");
         }
     }
 
-    public void moveSouth(Dungeon dungeon) throws Exception {
-        if (this.currentLocation[0] > 0) {
-            this.currentLocation[0] = this.currentLocation[0] -= 1;
+    public void moveSouth(Dungeon dungeon) {
+        if (!currentLocation.noWaySouth) {
+            int[] position = findCurrentLocation(dungeon);
+            currentLocation = dungeon.locations[position[0] + 1][position[1]];
             System.out.println("You move through the gloomy dungeon...");
         }
         else {
-            throw new Exception();
+            System.out.println("You can't go that way!\n");
         }
     }
     
@@ -213,7 +232,7 @@ public class Hero extends Character {
         return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
     }
 
-    public void encounter(Minion enemy, Dungeon dungeon /* 2nd param only needed for the shoddy solution below; see comment */) {
+    public void encounter(Minion enemy) {
         System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
         while (!evaded && enemy.isAlive && this.isAlive) {
@@ -230,8 +249,7 @@ public class Hero extends Character {
                     double rng = Math.random();
                     if (this.evasion > rng) {
                         evaded = true;
-                        // not a great solution, it would be better to leave the monsters array as protected, but can't think of a better way to do this.
-                        dungeon.locations[this.currentLocation[0]][this.currentLocation[1]].enemy = null;
+                        currentLocation.enemy = null;
                         this.addXp(2);
                         System.out.println("You have successfully evaded the monster.");
                     }

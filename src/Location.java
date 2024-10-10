@@ -9,10 +9,10 @@ public class Location {
     public Inventory items;
     String description;
     boolean explored;
-    boolean noWaySouth;
-    boolean noWayNorth;
-    boolean noWayEast;
-    boolean noWayWest;
+    public boolean noWaySouth;
+    public boolean noWayNorth;
+    public boolean noWayEast;
+    public boolean noWayWest;
 
 
     static String[] texts = {"You stand in a dim and murky room. Green stuff oozes from the decaying bricks in the wall. ", 
@@ -45,23 +45,23 @@ public class Location {
     public String describeLocation(Hero Player) {
         String text = "";
         if (enemy != null && enemy.isAlive) {
-            text = "You have encountered a monster! " + enemy;
+            text = "You have encountered a monster! " + enemy + "\n";
             return description + text;
         }
         else if (items.size() > 0) {
-            text = "You have found the following items: \n" + items;
+            text = "You have found the following items: \n" + items + "\n";
         }
         if (noWaySouth) {
-            text = text.concat("\nThere is no way south from here.\n");
+            text = text.concat("There is no way south from here.\n");
         }
         if (noWayNorth) {
-            text = text.concat("\nThere is no way north from here.\n");
+            text = text.concat("There is no way north from here.\n");
         }
         if (noWayEast) {
-            text = text.concat("\nThere is no way east from here.\n");
+            text = text.concat("There is no way east from here.\n");
         }
         if (noWayWest) {
-            text = text.concat("\nThere is no way west from here.\n");
+            text = text.concat("There is no way west from here.\n");
         }
         return description + text;
     }

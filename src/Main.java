@@ -1,7 +1,6 @@
 package src;
 import src.characters.Hero;
 import java.util.Random;
-import java.util.Arrays;
 
 
 public class Main {
@@ -32,43 +31,34 @@ public class Main {
             // create a small dungeon, set initial position in dungeon
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
 
-            player.currentLocation[0] = 0;
-            player.currentLocation[1] =  Math.round(dungeon.width/2);
+            player.currentLocation = dungeon.locations[0][0];
     
             // needed to skip redescription of location when an invalid command is entered
             boolean skipDescription = false;
     
             // initiates game loop
             while (player.isAlive && !player.foundTreasure) {
-                int[] here = player.currentLocation;
                 if (!skipDescription) {
-                    System.out.println(dungeon.locations[here[0]][here[1]].describeLocation(player));
-                    dungeon.locations[here[0]][here[1]].explored = true;
+                    System.out.println(player.currentLocation.describeLocation(player));
+                    player.currentLocation.explored = true;
                 }
                 // resets skip description variable to false in case of an earlier invalid command, switches off first turn text
                 skipDescription = false;
                 firstTurn = false;
                 // ends game loop if loss or victory conditions met
-                if (player.foundTreasure && (dungeon.locations[here[0]][here[1]].enemy == null || !dungeon.locations[here[0]][here[1]].enemy.isAlive)) {
+                if (player.foundTreasure && (player.currentLocation.enemy == null || !player.currentLocation.enemy.isAlive)) {
                     break;
                 }
                 // starts encounter with a monster
-                if (dungeon.locations[here[0]][here[1]].enemy != null && dungeon.locations[here[0]][here[1]].enemy.isAlive) {
-                    player.encounter(dungeon.locations[here[0]][here[1]].enemy, dungeon);
+                if (player.currentLocation.enemy != null && player.currentLocation.enemy.isAlive) {
+                    player.encounter(player.currentLocation.enemy);
                     if (player.isAlive) {
-                        System.out.println(dungeon.locations[here[0]][here[1]].describeLocation(player));
+                        System.out.println(player.currentLocation.describeLocation(player));
                     }
                 }
                 // handles player movement
                 if (!player.foundTreasure && player.isAlive) {
-                    try {
                     player.command(dungeon);
-                    }
-                // handles invalid directional commands
-                    catch (Exception e) {
-                        System.out.println("You can't go that way!");
-                        skipDescription = true;
-                    }
                 }
             }
             // Victory and loss messages
