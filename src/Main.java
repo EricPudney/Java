@@ -34,26 +34,22 @@ public class Main {
             player.currentLocation = dungeon.locations[dungeon.height - 1][Math.round(dungeon.width / 2)];
     
             // needed to skip redescription of location when an invalid command is entered
-            boolean skipDescription = false;
     
             // initiates game loop
             while (player.isAlive && !player.foundTreasure) {
-                if (!skipDescription) {
-                    System.out.println(player.currentLocation.describeLocation(player));
-                    player.currentLocation.explored = true;
-                }
+                System.out.println(player.currentLocation.describeLocation());
+                player.currentLocation.explored = true;
                 // resets skip description variable to false in case of an earlier invalid command, switches off first turn text
-                skipDescription = false;
                 firstTurn = false;
                 // ends game loop if loss or victory conditions met
-                if (player.foundTreasure && (player.currentLocation.enemy == null || !player.currentLocation.enemy.isAlive)) {
+                if (player.foundTreasure) {
                     break;
                 }
                 // starts encounter with a monster
                 if (player.currentLocation.enemy != null && player.currentLocation.enemy.isAlive) {
                     player.encounter(player.currentLocation.enemy);
                     if (player.isAlive) {
-                        System.out.println(player.currentLocation.describeLocation(player));
+                        System.out.println(player.currentLocation.describeLocation());
                     }
                 }
                 // handles player movement
@@ -71,7 +67,7 @@ public class Main {
                 player.foundTreasure = false;
                 firstTurn = true;
                 Thread.sleep(1500);
-                System.out.printf("Hooray! %s found the treasure! you now have %d gold. \n\n", player.name, player.gold);
+                System.out.printf("Hooray! %s found the treasure! \n\n", player.name);
                 Thread.sleep(2000);
                 System.out.printf("Back in town, you visit the shop before heading out on another adventure.\n\n");
                 Thread.sleep(2000);

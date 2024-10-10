@@ -1,6 +1,5 @@
 package src;
 
-import src.characters.Hero;
 import src.characters.Minion;
 import src.items.Item;
 
@@ -42,8 +41,11 @@ public class Location {
         this.noWayWest = noWayWest;
     }
 
-    public String describeLocation(Hero Player) {
+    public String describeLocation() {
         String text = "";
+        if (enemy != null && !enemy.isAlive) {
+            text = String.format("There is a dead %s here.\n", enemy.name);
+        }
         if (enemy != null && enemy.isAlive) {
             text = "You have encountered a monster! " + enemy + "\n";
             return description + text;

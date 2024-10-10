@@ -176,6 +176,7 @@ public class Hero extends Character {
                 }
     }
 
+    // Where should this be??
     public int[] findCurrentLocation(Dungeon dungeon) {
         int[] position = {0, 0};
         for (int i = 0; i < dungeon.locations.length; i++) {
