@@ -22,6 +22,13 @@ public class Item {
         this.value = value;
     }
 
+    public static Item generateTreasure(int width, int height) {
+        String name = "Treasure";
+        String description = "A pile of valuables to be sold at the shop!";
+        int value = width * height;
+        return new Item(name, description, value);
+    }
+
     public static Item generateItem() {
         int rng = Math.round((float)Math.random() * (itemList.length -1));
         String name = itemList[rng][0];

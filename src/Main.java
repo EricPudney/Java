@@ -31,7 +31,7 @@ public class Main {
             // create a small dungeon, set initial position in dungeon
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
 
-            player.currentLocation = dungeon.locations[0][0];
+            player.currentLocation = dungeon.locations[dungeon.height - 1][Math.round(dungeon.width / 2)];
     
             // needed to skip redescription of location when an invalid command is entered
             boolean skipDescription = false;

@@ -24,9 +24,9 @@ public class Dungeon {
 
         // places the treasure somewhere in the dungeon
         int x = Main.rng.nextInt(this.width);
-        int y = Main.rng.nextInt(this.height);
+        int y = Main.rng.nextInt(this.height - 1);
         // create a treasure inner class to go here!
-        locations[y][x].items.add(Item.generateMagicItem());
+        locations[y][x].items.add(Item.generateTreasure(width, height));
     }
 
     public String toString(Hero player) {
@@ -52,4 +52,6 @@ public class Dungeon {
         map = map.concat("\n width: " + width + "\n height: " + height);
         return map;
     }
+
+    
 }

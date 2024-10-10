@@ -113,6 +113,9 @@ public class Hero extends Character {
             Item item = locationItems.remove(0);
             if (this.inventory.addToInventory(item, this)) {
                 System.out.printf("You added the %s to your inventory.\n", item.name);
+                if (item.name.equals("Treasure")) {
+                    foundTreasure = true;
+                }
             }
             else {
                 locationItems.add(item);
@@ -123,6 +126,9 @@ public class Hero extends Character {
             if (this.inventory.addToInventory(item, this)) {
                 locationItems.remove(item);
                 System.out.printf("You added the %s to your inventory.\n", item.name);
+                if (item.name.equals("Treasure")) {
+                    foundTreasure = true;
+                }
             }
             else {
                 locationItems.add(item);
