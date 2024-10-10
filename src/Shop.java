@@ -67,19 +67,24 @@ public class Shop extends Inventory{
         }
     }
     
-    public void sellGoods(Hero player, Item itemSold) {
+    public boolean sellGoods(Hero player, Item itemSold) {
+        System.out.printf("The shopkeeper has %d gold.\n", gold);
         if (this.gold >= itemSold.value) {
             if (player.inventory.removeFromInventory(itemSold, player)) {
                 System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
                 player.gold += itemSold.value;
+                this.gold -= itemSold.value;
                 this.add(itemSold);
+                return true;
             }
             else {
-                System.out.println("Something went wrong - unable to sell item.");
+                System.out.println("Something went wrong - unable to sell item.\n");
+                return false;
             }
         }
         else {
-            System.out.printf("The shopkeeper can't afford to buy your %s!", itemSold.name);
+            System.out.printf("The shopkeeper can't afford to buy your %s!\n", itemSold.name);
+            return false;
         }
     }
 
@@ -92,9 +97,11 @@ public class Shop extends Inventory{
                 continue;
             }
             junkItems++;
-            sellGoods(player, item);
-            i--;
+            if (sellGoods(player, item)) {
+                i--;
+            }
         }
+        System.out.printf("The shopkeeper has %d gold remaining.\n", gold);
         if (junkItems == 0) {
             System.out.println("You don't have any junk items to sell!\n");
         }
