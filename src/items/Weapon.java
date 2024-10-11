@@ -1,5 +1,7 @@
 package src.items;
 
+import src.characters.Hero;
+
 // not currently in use
 public class Weapon extends Item implements Equippable {
     public double block;
@@ -7,13 +9,15 @@ public class Weapon extends Item implements Equippable {
     public boolean twoHanded;
     public damageType damage;
     public int damageBoost;
+
     @Override
-    public boolean equip() {
+    public void equip(Hero player) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'equip'");
     }
+    
     @Override
-    public boolean unEquip() {
+    public void unEquip(Hero player) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
     }

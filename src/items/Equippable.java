@@ -1,6 +1,8 @@
 package src.items;
 
+import src.characters.Hero;
+
 public interface Equippable {
-    public boolean equip();
-    public boolean unEquip();
+    public void equip(Hero player);
+    public void unEquip(Hero player);
 }

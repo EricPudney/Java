@@ -59,6 +59,8 @@ public abstract class Decision {
                 return Actions.west;
             case x:
                 return Actions.evade;
+            case q:
+                return Actions.equip;
             default:
                 return null;        
         }
@@ -107,7 +109,8 @@ public abstract class Decision {
         t,
         a,
         x,
-        b
+        b,
+        q
     }
 
     public enum Actions{
@@ -125,6 +128,7 @@ public abstract class Decision {
         sell,
         buy,
         sellAll,
-        exit
+        exit, 
+        equip
     }
 }

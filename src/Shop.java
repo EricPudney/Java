@@ -60,6 +60,7 @@ public class Shop extends Inventory{
             if (player.inventory.addToInventory(itemBought, player) && this.remove(itemBought)) {
                 System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
                 player.gold -= itemBought.value;
+                this.gold += itemBought.value;
             }
         }
         else {
@@ -88,7 +89,6 @@ public class Shop extends Inventory{
         }
     }
 
-    // enhanced for-loop doesn't work but this seems to be OK
     public void sellJunkGoods(Hero player) {
         int junkItems = 0;
         for (int i = 0; i < player.inventory.size(); i++) {

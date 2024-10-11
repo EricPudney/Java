@@ -1,5 +1,6 @@
 package src.items;
 
+import src.Main;
 import src.characters.Hero;
 
 public class HealthBuffItem extends Item implements MagicItem, Equippable {
@@ -22,7 +23,7 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
 
     public static HealthBuffItem generateHealthBuffItem() {
         HealthBuffItem item = new HealthBuffItem();
-        int index = rng.nextInt(healthItemList.length -1);
+        int index = Main.rng.nextInt(healthItemList.length -1);
         item.name = healthItemList[index][0];
         item.description = healthItemList[index][1];
         item.buff = 1;
@@ -30,7 +31,7 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
         return item;
     }
 
-    // these methods can be replacd by equip() and unequip()?
+    // these methods could be replaced by equip() and unequip()?
     public void applyBuff(Hero player) {
         player.maxHealth += buff;
         player.health += buff;
@@ -42,14 +43,14 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
     }
 
     @Override
-    public boolean equip() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'equip'");
+    public void equip(Hero player) {
+        System.out.printf("You have equipped the %s!\n", name);
+        applyBuff(player);
     }
 
     @Override
-    public boolean unEquip() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
+    public void unEquip(Hero player) {
+        System.out.printf("You have unequipped the %s\n", name);
+        removeBuff(player);
     }
 }

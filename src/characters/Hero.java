@@ -27,8 +27,6 @@ public class Hero extends Character {
     // not yet in use
     private ArrayList<Equippable> equippedItems;
     
-
-
     static Console c = System.console();
 
     public Hero(int attack, int health, int shield, double initiative, double dodge, double block, double evasion, Type type, Race race, String name) {
@@ -44,6 +42,8 @@ public class Hero extends Character {
         this.race = race;
         this.name = name;
         this.inventory = new Inventory(8);
+        // not yet in use
+        this.equippedItems = new ArrayList<Equippable>();
     }
 
     public void addXp(int xp) {
@@ -66,8 +66,8 @@ public class Hero extends Character {
         System.out.printf("%s levelled up and is now level %d!\n", this.name, this.level);
     }
     
-    public void command (Dungeon dungeon) throws Exception {
-        Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t, Commands.m};
+    public void command (Dungeon dungeon) {
+        Commands[] commands = {Commands.n, Commands.e, Commands.w, Commands.s, Commands.c, Commands.i, Commands.h, Commands.t, Commands.m, Commands.q};
         Actions action = Decision.makeDecision("What do you want to do?", commands);
         switch (action) {
             case take:
@@ -84,6 +84,9 @@ public class Hero extends Character {
                 break;
             case characterInfo:
                 System.out.println(this.toString());
+                break;
+            case equip:
+                equipItem();
                 break;
 
             case north:
@@ -157,8 +160,9 @@ public class Hero extends Character {
                     return;
                 }
             }
+            this.inventory.remove(selectedItem);
             this.equippedItems.add((Equippable) selectedItem);
-            ((Equippable) selectedItem).equip();
+            ((Equippable) selectedItem).equip(this);
         }
     }
 
@@ -236,7 +240,7 @@ public class Hero extends Character {
     }
     
     public String toString() {
-        return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.";
+        return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.\n You have the folowing items equipped: " + equippedItems.toString() ;
     }
 
     public void encounter(Minion enemy) {

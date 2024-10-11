@@ -1,5 +1,6 @@
 package src.items;
 
+import src.Main;
 import src.characters.Hero;
 
 public class AttackBuffItem extends Item implements MagicItem, Equippable {
@@ -22,7 +23,7 @@ public class AttackBuffItem extends Item implements MagicItem, Equippable {
 
     public static AttackBuffItem generateAttackBuffItem() {
         AttackBuffItem item = new AttackBuffItem();
-        int index = rng.nextInt(attackItemList.length -1);
+        int index = Main.rng.nextInt(attackItemList.length -1);
         item.name = attackItemList[index][0];
         item.description = attackItemList[index][1];
         item.buff = 1;
@@ -39,14 +40,14 @@ public class AttackBuffItem extends Item implements MagicItem, Equippable {
     }
 
     @Override
-    public boolean equip() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'equip'");
+    public void equip(Hero player) {
+        System.out.printf("You have equipped the %s!\n", name);
+        applyBuff(player);
     }
 
     @Override
-    public boolean unEquip() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
+    public void unEquip(Hero player) {
+        System.out.printf("You have unequipped the %s!\n", name);
+        removeBuff(player);
     }
 }
