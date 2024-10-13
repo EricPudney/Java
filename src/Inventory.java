@@ -3,7 +3,6 @@ package src;
 import java.io.Console;
 import java.util.ArrayList;
 
-import src.characters.Hero;
 import src.items.*;
 
 public class Inventory extends ArrayList<Item> {
@@ -24,7 +23,7 @@ public class Inventory extends ArrayList<Item> {
             System.out.println("There is no room left in your inventory!");
             return false;
         }
-        System.out.printf("%s added to inventory.n", item.name);
+        this.add(item);
         return true;
     }
 

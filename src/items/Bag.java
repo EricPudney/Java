@@ -2,7 +2,7 @@ package src.items;
 
 import src.characters.Hero;
 
-public class Bag extends Item {
+public class Bag extends Item implements Equippable{
     int spaces;
 
     public Bag(int spaces) {
@@ -19,5 +19,17 @@ public class Bag extends Item {
 
     public void shrinkInventory(Hero player) {
         player.inventory.maxSize -= spaces;
+    }
+
+    @Override
+    public void equip(Hero player) {
+        System.out.printf("You have equipped the %s!\n", name);
+        expandInventory(player);
+    }
+
+    @Override
+    public void unEquip(Hero player) {
+        System.out.printf("You have unequipped the %s!\n", name);
+        shrinkInventory(player);
     }
 }
