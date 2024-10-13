@@ -15,8 +15,8 @@ import src.items.Item;
 
 public class Hero extends Character {
     public double evasion;
-    Race race;
-    Type type;
+    final Race race;
+    final Type type;
     public Location currentLocation;
     public int gold = 0;
     private int xp = 0;
@@ -24,7 +24,6 @@ public class Hero extends Character {
     public boolean foundTreasure = false;
     public boolean encounter = false;
     public Inventory inventory;
-    // not yet in use
     private ArrayList<Equippable> equippedItems;
     
     static Console c = System.console();
@@ -42,7 +41,6 @@ public class Hero extends Character {
         this.race = race;
         this.name = name;
         this.inventory = new Inventory(8);
-        // not yet in use
         this.equippedItems = new ArrayList<Equippable>();
     }
 
@@ -114,7 +112,7 @@ public class Hero extends Character {
         }
         else if (locationItems.size() == 1) {
             Item item = locationItems.remove(0);
-            if (this.inventory.addToInventory(item, this)) {
+            if (this.inventory.addToInventory(item)) {
                 System.out.printf("You added the %s to your inventory.\n", item.name);
                 if (item.name.equals("Treasure")) {
                     foundTreasure = true;
@@ -126,7 +124,7 @@ public class Hero extends Character {
         }
         else {
             Item item = locationItems.selectFromInventory("take");
-            if (this.inventory.addToInventory(item, this)) {
+            if (this.inventory.addToInventory(item)) {
                 locationItems.remove(item);
                 System.out.printf("You added the %s to your inventory.\n", item.name);
                 if (item.name.equals("Treasure")) {
@@ -173,7 +171,7 @@ public class Hero extends Character {
         }
         Item droppedItem = this.inventory.selectFromInventory("drop");
             if (droppedItem != null) {
-                if (this.inventory.removeFromInventory(droppedItem, this)) {
+                if (this.inventory.remove(droppedItem)) {
                     System.out.printf("You dropped the %s.\n", droppedItem.name);
                     currentLocation.items.add(droppedItem);
                     }

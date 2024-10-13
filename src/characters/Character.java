@@ -2,7 +2,7 @@ package src.characters;
 
 import src.Main;
 
-public class Character {
+public abstract class Character {
     public int attack;
     public int maxHealth;
     public int health;

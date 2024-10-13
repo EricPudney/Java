@@ -57,7 +57,7 @@ public class Shop extends Inventory{
             return;
         }
         if (player.gold >= itemBought.value) {
-            if (player.inventory.addToInventory(itemBought, player) && this.remove(itemBought)) {
+            if (player.inventory.addToInventory(itemBought) && this.remove(itemBought)) {
                 System.out.printf("Bought %s for %d gold.\n", itemBought.name, itemBought.value);
                 player.gold -= itemBought.value;
                 this.gold += itemBought.value;
@@ -71,7 +71,7 @@ public class Shop extends Inventory{
     public boolean sellGoods(Hero player, Item itemSold) {
         System.out.printf("The shopkeeper has %d gold.\n", gold);
         if (this.gold >= itemSold.value) {
-            if (player.inventory.removeFromInventory(itemSold, player)) {
+            if (player.inventory.remove(itemSold)) {
                 System.out.printf("Sold %s for %d gold.\n", itemSold.name, itemSold.value);
                 player.gold += itemSold.value;
                 this.gold -= itemSold.value;

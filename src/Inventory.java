@@ -19,39 +19,13 @@ public class Inventory extends ArrayList<Item> {
         // used for dungeon items only - they have no spaces property
     }
 
-    public boolean addToInventory(Item item, Hero player) {
+    public boolean addToInventory(Item item) {
         if (this.size() >= maxSize) {
             System.out.println("There is no room left in your inventory!");
             return false;
         }
-        else if (item instanceof Bag && containsBag) {
-            System.out.println("Inventory already contains a bag!");
-            return false;
-        }
-        else {
-            this.add(item);
-            if (item instanceof MagicItem) {
-                ((MagicItem) item).applyBuff(player);
-            }
-            if (item instanceof Bag) {
-                ((Bag) item).expandInventory(player);
-                player.inventory.containsBag = true;
-            }
-            return true;
-        }
-    }
-
-    public boolean removeFromInventory(Item item, Hero player) {
-        if (this.remove(item)) {
-            if (item instanceof MagicItem) {
-                ((MagicItem) item).removeBuff(player);
-            }
-            if (item instanceof Bag) {
-                ((Bag) item).shrinkInventory(player);
-            }
-            return true;
-        }
-        return false;
+        System.out.printf("%s added to inventory.n", item.name);
+        return true;
     }
 
     public Item selectFromInventory(String purpose) {
