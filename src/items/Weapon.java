@@ -4,11 +4,20 @@ import src.characters.Hero;
 
 // not currently in use
 public class Weapon extends Item implements Equippable {
-    public double block;
-    public double shield;
-    public boolean twoHanded;
+    double block;
+    double shield;
+    boolean twoHanded;
+    Material material;
+    Quality quality;
+    int attack;
     // public damageType damage;
     // public int damageBoost;
+
+    public Weapon(Material material, Quality quality) {
+        this.material = material;
+        this.quality = quality;
+        this.attack = material.attack + quality.attack;
+    }
 
     @Override
     public void equip(Hero player) {
@@ -21,11 +30,4 @@ public class Weapon extends Item implements Equippable {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'unEquip'");
     }
-}
-
-// ??? could be made relevant with additions to Minion class
-enum damageType {
-    slashing,
-    crushing,
-    piercing
 }
