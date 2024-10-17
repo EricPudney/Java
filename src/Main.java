@@ -1,12 +1,14 @@
 package src;
+
 import src.characters.Hero;
+
 import java.util.Random;
 
 
 public class Main {
 
     public static Random rng = new Random();
-    
+
     public static boolean firstTurn = true;
 
     static int successfulRuns = 0;
@@ -26,7 +28,7 @@ public class Main {
         Thread.sleep(1500);
         System.out.printf("Hooray! %s found the treasure! \n\n", player.name);
         Thread.sleep(1500);
-        System.out.printf("Back in town, you visit the shop before heading out on another adventure.\n\n");
+        System.out.print("Back in town, you visit the shop before heading out on another adventure.\n\n");
         Thread.sleep(1500);
         Shop shop = new Shop(20 + (successfulRuns * 5));
         shop.shopVisit(player);
@@ -47,14 +49,14 @@ public class Main {
             }
             // create a small dungeon, set initial position in dungeon
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
-            player.currentLocation = dungeon.locations[dungeon.height - 1][Math.round(dungeon.width / 2)];
-        
+            player.currentLocation = dungeon.locations[dungeon.height - 1][Math.round((float) dungeon.width / 2)];
+
             // initiates game loop
             while (player.isAlive && !player.foundTreasure) {
                 System.out.println(player.currentLocation.describeLocation());
                 player.currentLocation.explored = true;
                 firstTurn = false;
-                
+
                 // starts encounter with a monster
                 if (player.currentLocation.enemy != null && player.currentLocation.enemy.isAlive) {
                     player.encounter(player.currentLocation.enemy);
@@ -72,7 +74,7 @@ public class Main {
                 System.out.printf("%s was killed in the horrible dungeon!", player.name);
             }
             // reset everything, visit shop & increase victory count for a new dungeon
-            else if (player.foundTreasure) {
+            else {
                 endAdventure(player);
             }
         }

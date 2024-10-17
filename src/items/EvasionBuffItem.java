@@ -16,11 +16,6 @@ public class EvasionBuffItem extends Item implements MagicItem, Equippable {
         super();
     }
 
-    public EvasionBuffItem(String name, String description, int value, double buff) {
-        super(name, description, value);
-        this.buff = buff;
-    }
-
     public static EvasionBuffItem generateEvasionBuffItem() {
         EvasionBuffItem item = new EvasionBuffItem();
         int index = Main.rng.nextInt(evasionItemList.length -1);

@@ -1,5 +1,4 @@
 package src;
-import java.io.Console;
 
 import src.Decision.Actions;
 import src.Decision.Commands;
@@ -8,8 +7,6 @@ import src.items.*;
 
 public class Shop extends Inventory{
     int gold;
-
-    static Console c = System.console();
 
     public Shop(int gold) {
         this.gold = gold;
@@ -38,7 +35,6 @@ public class Shop extends Inventory{
                 case exit:
                     return;
                 case null, default:
-                    continue;
             }
         }
     }

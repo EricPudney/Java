@@ -37,10 +37,10 @@ public class Dungeon {
                 if (player.currentLocation == locations[i][j]) {
                     map = map.concat(" X ");
                 }
-                else if (locations[i][j].explored && locations[i][j].items.size() == 0) {
+                else if (locations[i][j].explored && locations[i][j].items.isEmpty()) {
                     map = map.concat("[ ]");
                 }
-                else if (locations[i][j].explored && locations[i][j].items.size() > 0) {
+                else if (locations[i][j].explored && !locations[i][j].items.isEmpty()) {
                     map = map.concat("[i]");
                 }
                 else {

@@ -16,11 +16,6 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
         super();
     }
 
-    public HealthBuffItem(String name, String description, int value, double buff) {
-        super(name, description, value);
-        this.buff = buff;
-    }
-
     public static HealthBuffItem generateHealthBuffItem() {
         HealthBuffItem item = new HealthBuffItem();
         int index = Main.rng.nextInt(healthItemList.length -1);
@@ -33,13 +28,13 @@ public class HealthBuffItem extends Item implements MagicItem, Equippable {
 
     // these methods could be replaced by equip() and unequip()?
     public void applyBuff(Hero player) {
-        player.maxHealth += buff;
-        player.health += buff;
+        player.maxHealth += (int) buff;
+        player.health += (int) buff;
     }
 
     public void removeBuff(Hero player) {
-        player.maxHealth -= buff;
-        player.health -= buff;
+        player.maxHealth -= (int) buff;
+        player.health -= (int) buff;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class Item {
 
     public static Item generateTreasure(int width, int height) {
         String name = "Treasure";
-        String description = "A pile of valuables to be sold at the shop!";
+        String description = "A pile of valuables to be sold in town!";
         int value = width * height;
         return new Item(name, description, value);
     }
@@ -33,23 +33,19 @@ public class Item {
         int rng = Math.round((float)Math.random() * (itemList.length -1));
         String name = itemList[rng][0];
         String description = itemList[rng][1];
-        Item item = new Item(name, description, 5);
-        return item;
+        return new Item(name, description, 5);
     }
 
     public static Item generateMagicItem() {
         double rng = Math.random();
         if (rng <= 0.6) {
-            HealthBuffItem item = HealthBuffItem.generateHealthBuffItem();
-            return item;
+            return HealthBuffItem.generateHealthBuffItem();
         }
         else if (rng <= 0.9) {
-            AttackBuffItem item = AttackBuffItem.generateAttackBuffItem();
-            return item;
+            return AttackBuffItem.generateAttackBuffItem();
         }
         else {
-            EvasionBuffItem item = EvasionBuffItem.generateEvasionBuffItem();
-            return item;   
+            return EvasionBuffItem.generateEvasionBuffItem();
         }
     }
 }

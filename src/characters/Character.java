@@ -12,7 +12,6 @@ public abstract class Character {
     public double block;
     public String name;
     public boolean isAlive = true;
-    public int[] currentLocation;
 
     public void attack(Character target) {
         int damageAdjust = Main.rng.nextInt(-1, 2);
@@ -32,7 +31,7 @@ public abstract class Character {
             damage = 1;
         }
         System.out.printf("%s attacks %s, doing %d damage!\n", this.name, target.name, damage);
-        target.health = target.health -= damage;
+        target.health -= damage;
         if (target.health <= 0) {
             target.isAlive = false;
             System.out.printf("%s killed %s!\n", this.name, target.name);

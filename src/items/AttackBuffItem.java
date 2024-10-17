@@ -16,11 +16,6 @@ public class AttackBuffItem extends Item implements MagicItem, Equippable {
         super();
     }
 
-    public AttackBuffItem(String name, String description, int value, double buff) {
-        super(name, description, value);
-        this.buff = buff;
-    }
-
     public static AttackBuffItem generateAttackBuffItem() {
         AttackBuffItem item = new AttackBuffItem();
         int index = Main.rng.nextInt(attackItemList.length -1);
@@ -32,11 +27,11 @@ public class AttackBuffItem extends Item implements MagicItem, Equippable {
     }
 
     public void applyBuff(Hero player) {
-        player.attack += buff;
+        player.attack += (int) buff;
     }
 
     public void removeBuff(Hero player) {
-        player.attack -= buff;
+        player.attack -= (int) buff;
     }
 
     @Override

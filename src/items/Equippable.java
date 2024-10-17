@@ -3,6 +3,6 @@ package src.items;
 import src.characters.Hero;
 
 public interface Equippable {
-    public void equip(Hero player);
-    public void unEquip(Hero player); 
+    void equip(Hero player);
+    void unEquip(Hero player);
 }

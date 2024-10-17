@@ -50,7 +50,7 @@ public class Location {
             text = "You have encountered a monster! " + enemy + "\n";
             return description + text;
         }
-        else if (items.size() > 0) {
+        else if (!items.isEmpty()) {
             text = "You have found the following items: \n" + items + "\n";
         }
         if (noWaySouth) {

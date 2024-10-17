@@ -6,7 +6,7 @@ import src.characters.Hero;
 public class Weapon extends Item implements Equippable {
     double block;
     double shield;
-    boolean twoHanded;
+    // boolean twoHanded;
     Material material;
     Quality quality;
     int attack;

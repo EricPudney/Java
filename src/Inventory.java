@@ -7,7 +7,6 @@ import src.items.*;
 
 public class Inventory extends ArrayList<Item> {
     public int maxSize;
-    boolean containsBag = false;
     static Console c = System.console();
 
     public Inventory(int spaces) {
