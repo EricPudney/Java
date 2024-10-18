@@ -1,17 +1,17 @@
 package src.characters;
-import java.io.Console;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import src.Decision;
 import src.Decision.Actions;
 import src.Decision.Commands;
-import src.Dungeon;
+import src.areas.Dungeon;
 import src.Inventory;
-import src.Location;
+import src.areas.Location;
 import src.Main;
 import src.items.Equippable;
 import src.items.Item;
+import src.items.Usable;
 
 public class Hero extends Character {
     public double evasion;
@@ -22,11 +22,10 @@ public class Hero extends Character {
     private int xp = 0;
     public int level = 1;
     public boolean foundTreasure = false;
-    public boolean encounter = false;
     public Inventory inventory;
-    private ArrayList<Equippable> equippedItems;
-    
-    static Console c = System.console();
+    private final ArrayList<Equippable> equippedItems;
+
+    public static Scanner scanner = new Scanner(System.in);
 
     public Hero(int attack, int health, int shield, double initiative, double dodge, double block, double evasion, Type type, Race race, String name) {
         this.attack = attack;
@@ -41,7 +40,7 @@ public class Hero extends Character {
         this.race = race;
         this.name = name;
         this.inventory = new Inventory(8);
-        this.equippedItems = new ArrayList<Equippable>();
+        this.equippedItems = new ArrayList<>();
     }
 
     public void addXp(int xp) {
@@ -69,10 +68,15 @@ public class Hero extends Character {
         Actions action = Decision.makeDecision("What do you want to do?", commands);
         switch (action) {
             case take:
-                takeItem(dungeon);
+                takeItem();
                 break;
             case inventory:
-                viewInventory(dungeon);
+                if (this.inventory.isEmpty()) {
+                    System.out.println(this.inventory);
+                    return;
+                }
+                System.out.println(this.inventory);
+                inventoryInteraction(Decision.makeInventoryDecision("Enter q to equip an item, d to drop an item, u to use a consumable item or x to exit.", new Commands[]{Commands.q, Commands.d, Commands.u, Commands.x}));
                 break;
             case help:
                 Main.printHelpText();
@@ -81,7 +85,7 @@ public class Hero extends Character {
                 System.out.println(dungeon.toString(this));
                 break;
             case characterInfo:
-                System.out.println(this.toString());
+                System.out.println(this);
                 break;
             case equip:
                 equipItem();
@@ -99,19 +103,30 @@ public class Hero extends Character {
             case west:
                 moveWest(dungeon);
                 break;
+            case null:
+                break;
             default:
                 System.out.println("Something has gone wrong with the command method.");
         }
     }
 
-    public void takeItem(Dungeon dungeon) {
+    public void inventoryInteraction(Actions action) {
+        switch (action) {
+            case use -> useItem();
+            case equip -> equipItem();
+            case drop -> dropFromInventory();
+            case exit -> {
+            }
+        }
+    }
+
+    public void takeItem() {
         Inventory locationItems = currentLocation.items;
-        if (locationItems.size() == 0) {
+        if (locationItems.isEmpty()) {
             System.out.println("There is nothing here to take!");
-            return;
         }
         else if (locationItems.size() == 1) {
-            Item item = locationItems.remove(0);
+            Item item = locationItems.removeFirst();
             if (this.inventory.addToInventory(item)) {
                 System.out.printf("You added the %s to your inventory.\n", item.name);
                 if (item.name.equals("Treasure")) {
@@ -138,18 +153,12 @@ public class Hero extends Character {
     }
 
     public void equipItem() {
-        if (this.inventory.size() == 0) {
-            System.out.println(this.inventory);
-            return;
-        }
         Item selectedItem = this.inventory.selectFromInventory("equip");
         if (!(selectedItem instanceof Equippable)) {
             System.out.println("That item cannot be equipped!");
-            return;
         }
         else if (equippedItems.size() >= 5) {
             System.out.println("You cannot equip any more items!");
-            return;
         }
         else {
             for (Equippable item : equippedItems) {
@@ -164,11 +173,7 @@ public class Hero extends Character {
         }
     }
 
-    public void viewInventory(Dungeon dungeon) {
-        if (this.inventory.size() == 0) {
-            System.out.println(this.inventory);
-            return;
-        }
+    public void dropFromInventory() {
         Item droppedItem = this.inventory.selectFromInventory("drop");
             if (droppedItem != null) {
                 if (this.inventory.remove(droppedItem)) {
@@ -176,6 +181,17 @@ public class Hero extends Character {
                     currentLocation.items.add(droppedItem);
                     }
                 }
+    }
+
+    public void useItem() {
+        Item usedItem = this.inventory.selectFromInventory("use");
+        if (!(usedItem instanceof Usable)) {
+            System.out.println("That item cannot be used!");
+            return;
+        }
+        if (((Usable) usedItem).useItem(this)) {
+            this.inventory.remove(usedItem);
+        }
     }
 
     // Where should this be??
@@ -238,7 +254,7 @@ public class Hero extends Character {
     }
     
     public String toString() {
-        return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.\n You have the folowing items equipped: " + equippedItems.toString() ;
+        return "You are " + this.name + " the brave " + this.race + " " + this.type + "!\n" + "Attack: " + this.attack + "; Health: " + this.health + "\nYou have " + this.gold + " gold coins.\nYou are level " + this.level + " and have " + this.xp + " experience points.\n You have the folowing items equipped: " + equippedItems;
     }
 
     public void encounter(Minion enemy) {
@@ -249,7 +265,7 @@ public class Hero extends Character {
             Actions action = Decision.makeDecision("What do you want to do? Press a to attack or x to try to escape.", commands);
             switch (action) {
                 case characterInfo:
-                    System.out.println(this.toString());
+                    System.out.println(this);
                     break;
                 case help:
                     Main.printHelpText();
@@ -276,6 +292,8 @@ public class Hero extends Character {
                         this.addXp(5);
                     }
                     break;
+                case null:
+                    break;
                 default:
                     System.out.println("Something has gone wrong with the encounter method");
                     break;
@@ -283,12 +301,13 @@ public class Hero extends Character {
         }
     }
 
-    public static Hero CharacterCreation() throws IOException {
+    public static Hero CharacterCreation() {
         Type type = Type.warrior;
         Race race = Race.human;
         boolean noError = false;
+        System.out.println("Choose your character class (warrior, ranger or mage): ");
         while (!noError) {
-            String typeChosen = c.readLine("Choose your character class (warrior, ranger or mage): ");
+            String typeChosen = scanner.nextLine();
                 try {
                     type = Type.valueOf(typeChosen);
                     noError = true;
@@ -298,8 +317,9 @@ public class Hero extends Character {
                 }
             }
         noError = false;
+        System.out.println("Choose your character race (human, dwarf or elf): ");
         while (!noError) {
-            String raceChosen = c.readLine("Choose your character race (human, dwarf or elf): ");
+            String raceChosen = scanner.nextLine();
             try {
                 race = Race.valueOf(raceChosen);
                 noError = true;
@@ -308,9 +328,8 @@ public class Hero extends Character {
                 System.err.println(raceChosen + " is not a valid choice. Please try again.");
             }
         }
-        noError = false;
-        
-        String name = c.readLine("Give your character a name: ");
+        System.out.println("Give your character a name: ");
+        String name = scanner.nextLine();
 
         int attack = 3;
         int health = 8;
@@ -343,16 +362,16 @@ public class Hero extends Character {
             case human:
                 break;
             case elf:
-                initiative = initiative += 0.05;
-                evasion = evasion += 0.05;
-                dodge = dodge += 0.05;
-                health = health - 2;
+                initiative += 0.05;
+                evasion += 0.05;
+                dodge += 0.05;
+                health -= 2;
                 break;
             case dwarf:
-                initiative = initiative -= 0.05;
-                evasion = evasion -= 0.05;
-                dodge = dodge -= 0.05;
-                health = health + 2;
+                initiative -= 0.05;
+                evasion -= 0.05;
+                dodge -= 0.05;
+                health += 2;
                 break;
         }
         return new Hero(attack, health, shield, initiative, dodge, block, evasion, type, race, name);

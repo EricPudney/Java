@@ -1,13 +1,12 @@
 package src;
 
-import java.io.Console;
 import java.util.ArrayList;
 
 import src.items.*;
+import static src.characters.Hero.scanner;
 
 public class Inventory extends ArrayList<Item> {
     public int maxSize;
-    static Console c = System.console();
 
     public Inventory(int spaces) {
         this.maxSize = spaces;
@@ -32,7 +31,8 @@ public class Inventory extends ArrayList<Item> {
             if (this.size() == 0) {
                 return null;
             }
-            String input = c.readLine("Enter the number of the item you wish to %s or x to cancel.\n", purpose);
+            System.out.printf("Enter the number of the item you wish to %s or x to cancel.\n", purpose);
+            String input = scanner.nextLine();
             if (input.equals("x")) {
                 return null;
             }

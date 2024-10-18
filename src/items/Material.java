@@ -1,7 +1,7 @@
 package src.items;
 
 public enum Material {
-    LEATHER(5, 10),
+    COPPER(5, 10),
     IRON(10, 15),
     STEEL(15, 20),
     MITHRIL(20, 25);

@@ -1,11 +1,13 @@
-package src;
+package src.areas;
 
+import src.Decision;
 import src.Decision.Actions;
 import src.Decision.Commands;
+import src.Inventory;
 import src.characters.Hero;
 import src.items.*;
 
-public class Shop extends Inventory{
+public class Shop extends Inventory {
     int gold;
 
     public Shop(int gold) {
@@ -43,6 +45,7 @@ public class Shop extends Inventory{
         // stock = 1 junk item, 1 magic item, 1 bag. will lead to magic item inflation & invincible heroes
         this.add(Item.generateItem());
         this.add(Item.generateMagicItem());
+        this.add(new HealingPotion());
         // currently hard-coded here; could allow for larger bags?
         this.add(new Bag(5));
     }

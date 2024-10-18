@@ -1,5 +1,7 @@
-package src;
+package src.areas;
 
+import src.Inventory;
+import src.Main;
 import src.characters.Minion;
 import src.items.Item;
 
@@ -7,7 +9,7 @@ public class Location {
     public Minion enemy;
     public Inventory items;
     String description;
-    boolean explored;
+    public boolean explored;
     public boolean noWaySouth;
     public boolean noWayNorth;
     public boolean noWayEast;

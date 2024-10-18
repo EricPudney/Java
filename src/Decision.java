@@ -1,10 +1,9 @@
 package src;
 
-import java.io.Console;
+import static src.characters.Hero.scanner;
 
 public abstract class Decision {
     
-    static Console c = System.console();
 
     public static boolean checkLoop(Commands[] options, Commands option) {
         for (Commands o: options) {
@@ -17,7 +16,8 @@ public abstract class Decision {
     public static Commands checkInput(String prompt, Commands[] options) {
         String input;
         while (true) {
-            input = c.readLine(prompt);
+            System.out.println(prompt);
+            input = scanner.nextLine();
             try {
                 Commands option = Commands.valueOf(input);
                 boolean validCommand = checkLoop(options, option);
@@ -48,7 +48,6 @@ public abstract class Decision {
             case s -> Actions.south;
             case w -> Actions.west;
             case x -> Actions.evade;
-            case q -> Actions.equip;
             default -> null;
         };
     }
@@ -64,9 +63,22 @@ public abstract class Decision {
         };
     }
 
+    // not yet in use - secondary menu after inventory option selected to reduce commands
+    public static Actions makeInventoryDecision(String prompt, Commands[] options) {
+        Commands input = checkInput(prompt, options);
+        return switch (input) {
+            case q -> Actions.equip;
+            case d -> Actions.drop;
+            case u -> Actions.use;
+            case x -> Actions.exit;
+            default -> null;
+        };
+    }
+
     public static boolean makeYesNoDecision(String prompt) {
         while (true) {
-            String input = c.readLine(prompt);
+            System.out.println(prompt);
+            String input = scanner.nextLine();
             if (input.equals("y")) {
                 return true;
             }
@@ -90,7 +102,9 @@ public abstract class Decision {
         a,
         x,
         b,
-        q
+        q,
+        u,
+        d
     }
 
     public enum Actions{
@@ -109,6 +123,8 @@ public abstract class Decision {
         buy,
         sellAll,
         exit, 
-        equip
+        equip,
+        drop,
+        use
     }
 }

@@ -1,5 +1,6 @@
-package src;
+package src.areas;
 
+import src.Main;
 import src.characters.Hero;
 import src.items.Item;
 
