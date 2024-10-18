@@ -29,10 +29,10 @@ public class Location {
         this.items = new Inventory();
         this.explored = false;
         double prob = Main.rng.nextDouble();
-        if (prob < 0.08) {
+        if (prob < 0.12) {
             enemy = Minion.generateMonster();
         }
-        else if (prob > 0.92) {
+        else if (prob > 0.96) {
             items.add(Item.generateItem());
         }
         int randomDescription = Main.rng.nextInt(texts.length);

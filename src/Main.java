@@ -35,8 +35,6 @@ public class Main {
         Shop shop = new Shop(20 + (successfulRuns * 5));
         shop.shopVisit(player);
         Thread.sleep(1500);
-        shop.doctorVisit(player);
-        Thread.sleep(1500);
     }
 
     public static void main(String[] args) throws Exception {

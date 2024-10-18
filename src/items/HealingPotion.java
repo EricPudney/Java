@@ -15,6 +15,7 @@ public class HealingPotion extends Item implements Usable {
             return false;
         }
         character.health = character.maxHealth;
+        System.out.println("Your health has been fully restored!");
         return true;
     }
 }

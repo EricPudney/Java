@@ -25,7 +25,7 @@ public class Item {
     public static Item generateTreasure(int width, int height) {
         String name = "Treasure";
         String description = "A pile of valuables to be sold in town!";
-        int value = width * height;
+        int value = (int) ((width * height) / 1.5);
         return new Item(name, description, value);
     }
 
@@ -47,5 +47,9 @@ public class Item {
         else {
             return EvasionBuffItem.generateEvasionBuffItem();
         }
+    }
+
+    public String toString() {
+        return name + ": " + description;
     }
 }

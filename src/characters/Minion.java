@@ -23,8 +23,8 @@ public class Minion extends Character{
         int adjIndex = rng.nextInt(adj.length - 1);
         int nounIndex = rng.nextInt(noun.length - 1);
         String name = adj[adjIndex].concat(noun[nounIndex]);
-        int damage = rng.nextInt(5) + 1;
-        int health = rng.nextInt(5) + 1;
+        int damage = rng.nextInt(2, 6);
+        int health = rng.nextInt(4, 8);
         return new Minion(name, damage, health);
     }
 }

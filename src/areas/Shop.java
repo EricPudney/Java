@@ -17,8 +17,17 @@ public class Shop extends Inventory {
     }
 
     public void shopVisit(Hero player) {
+        for (int i = 0; i < player.inventory.size(); i++) {
+            Item item = player.inventory.get(i);
+            if (item.name.equals("Treasure")) {
+                player.gold += item.value;
+                player.inventory.remove(item);
+                System.out.printf("You have sold the treasure for %d gold!\n", item.value);
+            }
+        }
         while (true) {
             Commands[] commands = {Commands.s, Commands.b, Commands.a, Commands.x};
+            System.out.printf("You have %d gold.\n", player.gold);
             Actions action = Decision.makeShopDecision("Please enter b to buy, s to sell, a to sell all junk items, or x to leave the shop.\n", commands);
             switch (action) {
                 case sell:
@@ -92,7 +101,7 @@ public class Shop extends Inventory {
         int junkItems = 0;
         for (int i = 0; i < player.inventory.size(); i++) {
             Item item = player.inventory.get(i);
-            if (item instanceof MagicItem || item instanceof Bag || item instanceof Weapon) {
+            if (item instanceof MagicItem || item instanceof Equippable || item instanceof Usable) {
                 continue;
             }
             junkItems++;
@@ -103,23 +112,6 @@ public class Shop extends Inventory {
         System.out.printf("The shopkeeper has %d gold remaining.\n", gold);
         if (junkItems == 0) {
             System.out.println("You don't have any junk items to sell!\n");
-        }
-    }
-
-    public void doctorVisit(Hero player) {
-        if (player.health == player.maxHealth) {
-            System.out.println("You are in good health and don't need to visit the doctor!");
-        }
-        else if (player.gold < 10) {
-            System.out.println("You can't afford to visit the doctor!");
-        }
-        else {
-            boolean decision = Decision.makeYesNoDecision("Do you want the doctor to restore your health (costs 10 gold, y/n)?");
-            if (decision) {
-                    player.gold -= 10;
-                    player.health = player.maxHealth;
-                    System.out.println("The doctor has restored you to full health.");
-            }
         }
     }
 }

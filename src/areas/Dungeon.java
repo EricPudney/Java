@@ -9,7 +9,7 @@ public class Dungeon {
     public int width;
     public int height;
     
-    public Dungeon(int width, int height){
+    public Dungeon(int height, int width){
         this.width = width;
         this.height = height;
         locations = new Location[height][width];
@@ -26,7 +26,6 @@ public class Dungeon {
         // places the treasure somewhere in the dungeon
         int x = Main.rng.nextInt(this.width);
         int y = Main.rng.nextInt(this.height - 1);
-        // create a treasure inner class to go here!
         locations[y][x].items.add(Item.generateTreasure(width, height));
     }
 

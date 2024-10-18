@@ -332,7 +332,7 @@ public class Hero extends Character {
         String name = scanner.nextLine();
 
         int attack = 3;
-        int health = 8;
+        int health = 12;
         int shield = 1;
         double initiative = 0.5;
         double dodge = 0;
@@ -340,22 +340,22 @@ public class Hero extends Character {
         double evasion = 0.45;
         switch (type) {
             case warrior:
-                evasion = 0.4;
-                block = 0.3;
-                dodge = 0.05;
-                shield = 2;
+                evasion -= 0.1;
+                block += 0.3;
+                dodge += 0.05;
+                shield += 1;
                 break;
             case mage:
-                attack = 4;
-                health = 5;
-                block = 0.1;
-                dodge = 0.15;
+                attack += 1;
+                health -= 2;
+                block += 0.1;
+                dodge += 0.15;
                 break;
             case ranger:
-                attack = 2;
-                evasion = 0.5;
-                block = 0.15;
-                dodge = 0.25;
+                attack -= 1;
+                evasion += 0.05;
+                block += 0.15;
+                dodge += 0.25;
                 break;
         }
         switch (race) {
