@@ -258,8 +258,13 @@ public class Hero extends Character {
     }
 
     public void encounter(Minion enemy) {
+        if (enemy.initiative > this.initiative) {
+            System.out.printf("The %s is too fast for you, and attacks!\n" , enemy.name);
+            enemy.attack(this);
+        }
         System.out.printf("%s: attack %d, health %d. Fight or run?\n", enemy.name, enemy.attack, enemy.health);
         boolean evaded = false;
+
         while (!evaded && enemy.isAlive && this.isAlive) {
             Commands[] commands = {Commands.c, Commands.h, Commands.x, Commands.a};
             Actions action = Decision.makeDecision("What do you want to do? Press a to attack or x to try to escape.", commands);
@@ -292,10 +297,7 @@ public class Hero extends Character {
                         this.addXp(5);
                     }
                     break;
-                case null:
-                    break;
-                default:
-                    System.out.println("Something has gone wrong with the encounter method");
+                case null, default:
                     break;
             }
         }

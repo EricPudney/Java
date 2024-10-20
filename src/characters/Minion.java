@@ -9,14 +9,15 @@ public class Minion extends Character{
 
     private static final Random rng = new Random();
 
-    public Minion(String name, int damage, int health){
+    public Minion(String name, int damage, int health, double initiative){
         this.name = name;
         this.attack = damage;
         this.health = health;
+        this.initiative = initiative;
     }
 
     public String toString() {
-        return this.name.concat(": attack " + this.attack + ", health " + this.health);
+        return this.name.concat(": attack " + this.attack + ", health " + this.health+ ", initiative " + this.initiative);
     }
 
     public static Minion generateMonster() {
@@ -25,6 +26,7 @@ public class Minion extends Character{
         String name = adj[adjIndex].concat(noun[nounIndex]);
         int damage = rng.nextInt(2, 6);
         int health = rng.nextInt(4, 8);
-        return new Minion(name, damage, health);
+        double initiative = rng.nextDouble(0.2, 0.5);
+        return new Minion(name, damage, health, initiative);
     }
 }

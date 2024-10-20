@@ -41,7 +41,7 @@ public class Main {
         // Victory counter, initiate character creation
         Hero player = Hero.CharacterCreation();
 
-        // initiate dungeon loop
+        // initiate game loop
         while (player.isAlive) {
             if (firstTurn) {
                 printHelpText();
@@ -51,7 +51,7 @@ public class Main {
             Dungeon dungeon = new Dungeon(dungeonSize(successfulRuns), dungeonSize(successfulRuns));
             player.currentLocation = dungeon.locations[dungeon.height - 1][Math.round((float) dungeon.width / 2)];
 
-            // initiates game loop
+            // initiates dungeon loop
             while (player.isAlive && !player.foundTreasure) {
                 System.out.println(player.currentLocation.describeLocation());
                 player.currentLocation.explored = true;
@@ -64,6 +64,7 @@ public class Main {
                         System.out.println(player.currentLocation.describeLocation());
                     }
                 }
+
                 // handles player movement/other input
                 if (!player.foundTreasure && player.isAlive) {
                     player.command(dungeon);
