@@ -58,8 +58,7 @@ public abstract class Decision {
             case a -> Actions.sellAll;
             case s -> Actions.sell;
             case b -> Actions.buy;
-            case x -> Actions.exit;
-            default -> null;
+            default -> Actions.exit;
         };
     }
 
@@ -70,23 +69,8 @@ public abstract class Decision {
             case q -> Actions.equip;
             case d -> Actions.drop;
             case u -> Actions.use;
-            case x -> Actions.exit;
-            default -> null;
+            default -> Actions.exit;
         };
-    }
-
-    public static boolean makeYesNoDecision(String prompt) {
-        while (true) {
-            System.out.println(prompt);
-            String input = scanner.nextLine();
-            if (input.equals("y")) {
-                return true;
-            }
-            else if (input.equals("n")) {
-                return false;
-            }
-            System.out.println("Please enter a valid option.");
-        }
     }
 
     public enum Commands {
