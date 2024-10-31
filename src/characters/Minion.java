@@ -17,7 +17,7 @@ public class Minion extends Character{
     }
 
     public String toString() {
-        return this.name.concat(": attack " + this.attack + ", health " + this.health+ ", initiative " + this.initiative);
+        return this.name.concat(": attack " + this.attack + ", health " + this.health+ ", initiative " + String.format("%.2f", this.initiative));
     }
 
     public static Minion generateMonster() {

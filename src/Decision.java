@@ -40,11 +40,11 @@ public abstract class Decision {
             case a -> Actions.attack;
             case c -> Actions.characterInfo;
             case t -> Actions.take;
-            case e -> Actions.east;
             case h -> Actions.help;
             case m -> Actions.map;
             case i -> Actions.inventory;
             case n -> Actions.north;
+            case e -> Actions.east;
             case s -> Actions.south;
             case w -> Actions.west;
             case x -> Actions.evade;
